@@ -35,5 +35,6 @@
     "dist/**/*",
     "node_modules/**/*",
     "tmp/**/*"
-  ]
+  ],
+  "compileOnSave": false
 }
