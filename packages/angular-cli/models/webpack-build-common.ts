@@ -136,6 +136,10 @@ export function getWebpackCommonConfig(
 
   if (progress) { extraPlugins.push(new ProgressPlugin({ profile: verbose, colors: true })); }
 
+  let publicPaths = appConfig.publicPaths || {};
+
+  let publicPath = publicPaths[environment] || appConfig.deployUrl || '';
+
   return {
     devtool: sourcemap ? 'source-map' : false,
     performance: { hints: false },
@@ -150,10 +154,10 @@ export function getWebpackCommonConfig(
     entry: entryPoints,
     output: {
       path: path.resolve(projectRoot, appConfig.outDir),
-      publicPath: appConfig.deployUrl,
+      publicPath: publicPath,
       filename: `[name]${hashFormat.chunk}.bundle.js`,
       sourceMapFilename: `[name]${hashFormat.chunk}.bundle.map`,
-      chunkFilename: `[id]${hashFormat.chunk}.chunk.js`
+      chunkFilename: `[id]${hashFormat.chunk}.chunk.js`,
     },
     module: {
       rules: [

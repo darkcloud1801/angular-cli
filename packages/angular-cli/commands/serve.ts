@@ -31,6 +31,7 @@ export interface ServeTaskOptions {
   i18nFormat?: string;
   locale?: string;
   extractCss?: boolean | null;
+  publicPath: string;
 }
 
 const ServeCommand = Command.extend({
@@ -105,7 +106,8 @@ const ServeCommand = Command.extend({
     { name: 'i18n-file',       type: String, default: null },
     { name: 'i18n-format',     type: String, default: null },
     { name: 'locale',         type: String, default: null },
-    { name: 'extract-css',    type: Boolean, default: null }
+    { name: 'extract-css',    type: Boolean, default: null },
+    { name: 'public-path',              type: String,  default: '',      aliases: ['pp'] }
   ],
 
   run: function(commandOptions: ServeTaskOptions) {
