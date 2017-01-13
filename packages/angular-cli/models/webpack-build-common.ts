@@ -155,9 +155,9 @@ export function getWebpackCommonConfig(
     output: {
       path: path.resolve(projectRoot, appConfig.outDir),
       publicPath: publicPath,
-      filename: `[name]${hashFormat.chunk}.bundle.js`,
-      sourceMapFilename: `[name]${hashFormat.chunk}.bundle.map`,
-      chunkFilename: `[id]${hashFormat.chunk}.chunk.js`,
+      filename: `[name].bundle.js`,
+      sourceMapFilename: `[name].bundle.map`,
+      chunkFilename: `[id].chunk.js`,
     },
     module: {
       rules: [
@@ -179,7 +179,7 @@ export function getWebpackCommonConfig(
     },
     plugins: [
       new ExtractTextPlugin({
-        filename: `[name]${hashFormat.extract}.bundle.css`,
+        filename: `[name].bundle.css`,
         disable: !extractCss
       }),
       new HtmlWebpackPlugin({
