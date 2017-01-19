@@ -144,13 +144,10 @@ export function getWebpackCommonConfig(
       ].concat(extraRules)
     },
     plugins: [
-<<<<<<< HEAD
       new ExtractTextPlugin({
         filename: `[name].bundle.css`,
         disable: !extractCss
       }),
-=======
->>>>>>> e5ef9966918e84528eeb1312fa8e47dcbc725a86
       new HtmlWebpackPlugin({
         template: path.resolve(appRoot, appConfig.index),
         filename: path.resolve(appConfig.outDir, appConfig.index),
