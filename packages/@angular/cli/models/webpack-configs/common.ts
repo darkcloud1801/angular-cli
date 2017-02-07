@@ -139,10 +139,6 @@ export function getCommonConfig(wco: WebpackConfigOptions) {
       ].concat(extraRules)
     },
     plugins: [
-      new ExtractTextPlugin({
-        filename: `[name].bundle.css`,
-        // disable: !extractCss
-      }),
       new webpack.NoEmitOnErrorsPlugin(),
       new HtmlWebpackPlugin({
         template: path.resolve(appRoot, appConfig.index),
