@@ -7,7 +7,7 @@ var expect = require('chai').expect;
 var path = require('path');
 var tmp = require('../helpers/tmp');
 var root = process.cwd();
-var Promise = require('angular-cli/ember-cli/lib/ext/promise');
+var Promise = require('@angular/cli/ember-cli/lib/ext/promise');
 var SilentError = require('silent-error');
 const denodeify = require('denodeify');
 
@@ -33,183 +33,243 @@ describe('Acceptance: ng generate component', function () {
     const testPath = path.join(root, 'tmp/foo/src/app/my-comp/my-comp.component.ts');
     const appModule = path.join(root, 'tmp/foo/src/app/app.module.ts');
     return ng(['generate', 'component', 'my-comp'])
-      .then(() => expect(existsSync(testPath)).to.equal(true))
-      .then(() => readFile(appModule, 'utf-8'))
-      .then(content => {
-        // Expect that the app.module contains a reference to my-comp and its import.
-        expect(content).matches(/import.*MyCompComponent.*from '.\/my-comp\/my-comp.component';/);
-        expect(content).matches(/declarations:\s*\[[^\]]+?,\r?\n\s+MyCompComponent\r?\n/m);
-      });
+        .then(() = > expect(existsSync(testPath)).to.equal(true)
+    )
+    .
+    then(() = > readFile(appModule, 'utf-8')
+    )
+    .
+    then(content = > {
+      // Expect that the app.module contains a reference to my-comp and its import.
+      expect(content).matches(/import.*MyCompComponent.*from '.\/my-comp\/my-comp.component';/);
+    expect(content).matches(/declarations:\s*\[[^\]]+?,\r?\n\s+MyCompComponent\r?\n/m);
+  })
+    ;
   });
 
   it('test' + path.sep + 'my-comp', function () {
     fs.mkdirsSync(path.join(root, 'tmp', 'foo', 'src', 'app', 'test'));
-    return ng(['generate', 'component', 'test' + path.sep + 'my-comp']).then(() => {
-      var testPath = path.join(root, 'tmp', 'foo', 'src', 'app', 'test', 'my-comp', 'my-comp.component.ts');
-      expect(existsSync(testPath)).to.equal(true);
-    });
+    return ng(['generate', 'component', 'test' + path.sep + 'my-comp']).then(() = > {
+        var testPath = path.join(root, 'tmp', 'foo', 'src', 'app', 'test', 'my-comp', 'my-comp.component.ts');
+    expect(existsSync(testPath)).to.equal(true);
+  })
+    ;
   });
 
   it('test' + path.sep + '..' + path.sep + 'my-comp', function () {
     return ng(['generate', 'component', 'test' + path.sep + '..' + path.sep + 'my-comp'])
-      .then(() => {
+        .then(() = > {
         var testPath = path.join(root, 'tmp', 'foo', 'src', 'app', 'my-comp', 'my-comp.component.ts');
-        expect(existsSync(testPath)).to.equal(true);
-      });
+    expect(existsSync(testPath)).to.equal(true);
+  })
+    ;
   });
 
-  it('my-comp from a child dir', () => {
+  it('my-comp from a child dir', () = > {
     fs.mkdirsSync(path.join(root, 'tmp', 'foo', 'src', 'app', '1'));
-    return new Promise(function (resolve) {
+  return new Promise(function (resolve) {
       process.chdir('./src');
       resolve();
     })
-      .then(() => process.chdir('./app'))
-      .then(() => process.chdir('./1'))
-      .then(() => {
-        return ng(['generate', 'component', 'my-comp'])
-      })
-      .then(() => {
-        var testPath = path.join(root, 'tmp', 'foo', 'src', 'app', '1', 'my-comp', 'my-comp.component.ts');
-        expect(existsSync(testPath)).to.equal(true);
-      });
-  });
+      .then(() = > process.chdir('./app')
+  )
+  .
+  then(() = > process.chdir('./1')
+  )
+  .
+  then(() = > {
+    return ng(['generate', 'component', 'my-comp'])
+  }
+  )
+  .
+  then(() = > {
+    var testPath = path.join(root, 'tmp', 'foo', 'src', 'app', '1', 'my-comp', 'my-comp.component.ts');
+  expect(existsSync(testPath)).to.equal(true);
+})
+  ;
+})
+  ;
 
-  it('child-dir' + path.sep + 'my-comp from a child dir', () => {
+  it('child-dir' + path.sep + 'my-comp from a child dir', () = > {
     fs.mkdirsSync(path.join(root, 'tmp', 'foo', 'src', 'app', '1', 'child-dir'));
-    return new Promise(function (resolve) {
+  return new Promise(function (resolve) {
       process.chdir('./src');
       resolve();
     })
-      .then(() => process.chdir('./app'))
-      .then(() => process.chdir('./1'))
-      .then(() => {
-        return ng(['generate', 'component', 'child-dir' + path.sep + 'my-comp'])
-      })
-      .then(() => {
-        var testPath = path.join(
-          root, 'tmp', 'foo', 'src', 'app', '1', 'child-dir', 'my-comp', 'my-comp.component.ts');
-        expect(existsSync(testPath)).to.equal(true);
-      });
-  });
+      .then(() = > process.chdir('./app')
+  )
+  .
+  then(() = > process.chdir('./1')
+  )
+  .
+  then(() = > {
+    return ng(['generate', 'component', 'child-dir' + path.sep + 'my-comp'])
+  }
+  )
+  .
+  then(() = > {
+    var testPath = path.join(
+      root, 'tmp', 'foo', 'src', 'app', '1', 'child-dir', 'my-comp', 'my-comp.component.ts');
+  expect(existsSync(testPath)).to.equal(true);
+})
+  ;
+})
+  ;
 
-  it('child-dir' + path.sep + '..' + path.sep + 'my-comp from a child dir', () => {
+  it('child-dir' + path.sep + '..' + path.sep + 'my-comp from a child dir', () = > {
     fs.mkdirsSync(path.join(root, 'tmp', 'foo', 'src', 'app', '1'));
-    return Promise.resolve()
-      .then(() => process.chdir(path.normalize('./src/app/1')))
-      .then(() => {
-        return ng([
-          'generate', 'component', 'child-dir' + path.sep + '..' + path.sep + 'my-comp'
-        ])
-      })
-      .then(() => {
-        var testPath =
-          path.join(root, 'tmp', 'foo', 'src', 'app', '1', 'my-comp', 'my-comp.component.ts');
-        expect(existsSync(testPath)).to.equal(true);
-      });
-  });
+  return Promise.resolve()
+      .then(() = > process.chdir(path.normalize('./src/app/1'))
+  )
+  .
+  then(() = > {
+    return ng([
+      'generate', 'component', 'child-dir' + path.sep + '..' + path.sep + 'my-comp'
+    ])
+  }
+  )
+  .
+  then(() = > {
+    var testPath =
+      path.join(root, 'tmp', 'foo', 'src', 'app', '1', 'my-comp', 'my-comp.component.ts');
+  expect(existsSync(testPath)).to.equal(true);
+})
+  ;
+})
+  ;
 
-  it(path.sep + 'my-comp from a child dir, gens under ' + path.join('src', 'app'), () => {
+  it(path.sep + 'my-comp from a child dir, gens under ' + path.join('src', 'app'), () = > {
     fs.mkdirsSync(path.join(root, 'tmp', 'foo', 'src', 'app', '1'));
-    return Promise.resolve()
-      .then(() => process.chdir(path.normalize('./src/app/1')))
-      .then(() => {
-        return ng(['generate', 'component', path.sep + 'my-comp'])
-      })
-      .then(() => {
-        var testPath = path.join(root, 'tmp', 'foo', 'src', 'app', 'my-comp', 'my-comp.component.ts');
-        expect(existsSync(testPath)).to.equal(true);
-      });
-  });
+  return Promise.resolve()
+      .then(() = > process.chdir(path.normalize('./src/app/1'))
+  )
+  .
+  then(() = > {
+    return ng(['generate', 'component', path.sep + 'my-comp'])
+  }
+  )
+  .
+  then(() = > {
+    var testPath = path.join(root, 'tmp', 'foo', 'src', 'app', 'my-comp', 'my-comp.component.ts');
+  expect(existsSync(testPath)).to.equal(true);
+})
+  ;
+})
+  ;
 
-  it('..' + path.sep + 'my-comp from root dir will fail', () => {
-    return ng(['generate', 'component', '..' + path.sep + 'my-comp']).then(() => {
+  it('..' + path.sep + 'my-comp from root dir will fail', () = > {
+    return ng(['generate', 'component', '..' + path.sep + 'my-comp']).then(() = > {
       throw new SilentError(`ng generate component ..${path.sep}my-comp from root dir should fail.`);
-    }, (err) => {
-      expect(err).to.equal(`Invalid path: "..${path.sep}my-comp" cannot be above the "src${path.sep}app" directory`);
-    });
-  });
+},
+  (err) =
+  >
+  {
+    expect(err).to.equal(`Invalid path: "..${path.sep}my-comp" cannot be above the "src${path.sep}app" directory`);
+  }
+  )
+  ;
+})
+  ;
 
-  it('mycomp will prefix selector', () => {
+  it('mycomp will prefix selector', () = > {
     return ng(['generate', 'component', 'mycomp'])
-      .then(() => {
-        var testPath = path.join(root, 'tmp', 'foo', 'src', 'app', 'mycomp', 'mycomp.component.ts');
-        expect(existsSync(testPath)).to.equal(true);
-        var contents = fs.readFileSync(testPath, 'utf8');
-        expect(contents.indexOf('selector: \'app-mycomp\'') === -1).to.equal(false);
-      });
-  });
+      .then(() = > {
+      var testPath = path.join(root, 'tmp', 'foo', 'src', 'app', 'mycomp', 'mycomp.component.ts');
+  expect(existsSync(testPath)).to.equal(true);
+  var contents = fs.readFileSync(testPath, 'utf8');
+  expect(contents.indexOf('selector: \'app-mycomp\'') === -1).to.equal(false);
+})
+  ;
+})
+  ;
 
-  it('mycomp --no-prefix will not prefix selector', () => {
+  it('mycomp --no-prefix will not prefix selector', () = > {
     return ng(['generate', 'component', 'mycomp', '--no-prefix'])
-      .then(() => {
-        var testPath = path.join(root, 'tmp', 'foo', 'src', 'app', 'mycomp', 'mycomp.component.ts');
-        expect(existsSync(testPath)).to.equal(true);
-        var contents = fs.readFileSync(testPath, 'utf8');
-        expect(contents.indexOf('selector: \'mycomp\'') === -1).to.equal(false);
-      });
-  });
+      .then(() = > {
+      var testPath = path.join(root, 'tmp', 'foo', 'src', 'app', 'mycomp', 'mycomp.component.ts');
+  expect(existsSync(testPath)).to.equal(true);
+  var contents = fs.readFileSync(testPath, 'utf8');
+  expect(contents.indexOf('selector: \'mycomp\'') === -1).to.equal(false);
+})
+  ;
+})
+  ;
 
-  it('mycomp --prefix= will not prefix selector', () => {
+  it('mycomp --prefix= will not prefix selector', () = > {
     return ng(['generate', 'component', 'mycomp', '--prefix='])
-      .then(() => {
-        var testPath = path.join(root, 'tmp', 'foo', 'src', 'app', 'mycomp', 'mycomp.component.ts');
-        expect(existsSync(testPath)).to.equal(true);
-        var contents = fs.readFileSync(testPath, 'utf8');
-        expect(contents.indexOf('selector: \'mycomp\'') === -1).to.equal(false);
-      });
-  });
+      .then(() = > {
+      var testPath = path.join(root, 'tmp', 'foo', 'src', 'app', 'mycomp', 'mycomp.component.ts');
+  expect(existsSync(testPath)).to.equal(true);
+  var contents = fs.readFileSync(testPath, 'utf8');
+  expect(contents.indexOf('selector: \'mycomp\'') === -1).to.equal(false);
+})
+  ;
+})
+  ;
 
-  it('mycomp --prefix=test will prefix selector with \'test-\'', () => {
+  it('mycomp --prefix=test will prefix selector with \'test-\'', () = > {
     return ng(['generate', 'component', 'mycomp', '--prefix=test'])
-      .then(() => {
-        var testPath = path.join(root, 'tmp', 'foo', 'src', 'app', 'mycomp', 'mycomp.component.ts');
-        expect(existsSync(testPath)).to.equal(true);
-        var contents = fs.readFileSync(testPath, 'utf8');
-        expect(contents.indexOf('selector: \'test-mycomp\'') === -1).to.equal(false);
-      });
-  });
+      .then(() = > {
+      var testPath = path.join(root, 'tmp', 'foo', 'src', 'app', 'mycomp', 'mycomp.component.ts');
+  expect(existsSync(testPath)).to.equal(true);
+  var contents = fs.readFileSync(testPath, 'utf8');
+  expect(contents.indexOf('selector: \'test-mycomp\'') === -1).to.equal(false);
+})
+  ;
+})
+  ;
 
-  it('myComp will succeed', () => {
+  it('myComp will succeed', () = > {
     return ng(['generate', 'component', 'myComp'])
-      .then(() => {
-        var testPath = path.join(root, 'tmp', 'foo', 'src', 'app', 'my-comp', 'my-comp.component.ts');
-        expect(existsSync(testPath)).to.equal(true);
-      });
-  });
+      .then(() = > {
+      var testPath = path.join(root, 'tmp', 'foo', 'src', 'app', 'my-comp', 'my-comp.component.ts');
+  expect(existsSync(testPath)).to.equal(true);
+})
+  ;
+})
+  ;
 
-  it(`non${path.sep}existing${path.sep}dir${path.sep}myComp will create dir and succeed`, () => {
+  it(`non${path.sep}existing${path.sep}dir${path.sep}myComp will create dir and succeed`, () = > {
     const testPath =
       path.join(root, 'tmp', 'foo', 'src', 'app', 'non', 'existing', 'dir', 'my-comp', 'my-comp.component.ts');
-    const appModule = path.join(root, 'tmp', 'foo', 'src', 'app', 'app.module.ts');
-    return ng(['generate', 'component', `non${path.sep}existing${path.sep}dir${path.sep}myComp`])
-      .then(() => expect(existsSync(testPath)).to.equal(true))
-      .then(() => readFile(appModule, 'utf-8'))
-      .then(content => {
-        // Expect that the app.module contains a reference to my-comp and its import.
-        expect(content)
-          .matches(/import.*MyCompComponent.*from '.\/non\/existing\/dir\/my-comp\/my-comp.component';/);
-      });
-  });
+  const appModule = path.join(root, 'tmp', 'foo', 'src', 'app', 'app.module.ts');
+  return ng(['generate', 'component', `non${path.sep}existing${path.sep}dir${path.sep}myComp`])
+      .then(() = > expect(existsSync(testPath)).to.equal(true)
+  )
+  .
+  then(() = > readFile(appModule, 'utf-8')
+  )
+  .
+  then(content = > {
+    // Expect that the app.module contains a reference to my-comp and its import.
+    expect(content)
+    .matches(/import.*MyCompComponent.*from '.\/non\/existing\/dir\/my-comp\/my-comp.component';/);
+})
+  ;
+})
+  ;
 
   it('my-comp --inline-template', function () {
-    return ng(['generate', 'component', 'my-comp', '--inline-template']).then(() => {
-      var testPath = path.join(root, 'tmp', 'foo', 'src', 'app', 'my-comp', 'my-comp.component.html');
-      expect(existsSync(testPath)).to.equal(false);
-    });
+    return ng(['generate', 'component', 'my-comp', '--inline-template']).then(() = > {
+        var testPath = path.join(root, 'tmp', 'foo', 'src', 'app', 'my-comp', 'my-comp.component.html');
+    expect(existsSync(testPath)).to.equal(false);
+  })
+    ;
   });
 
   it('my-comp --inline-style', function () {
-    return ng(['generate', 'component', 'my-comp', '--inline-style']).then(() => {
-      var testPath = path.join(root, 'tmp', 'foo', 'src', 'app', 'my-comp', 'my-comp.component.css');
-      expect(existsSync(testPath)).to.equal(false);
-    });
+    return ng(['generate', 'component', 'my-comp', '--inline-style']).then(() = > {
+        var testPath = path.join(root, 'tmp', 'foo', 'src', 'app', 'my-comp', 'my-comp.component.css');
+    expect(existsSync(testPath)).to.equal(false);
+  })
+    ;
   });
 
-  it('my-comp --no-spec', function() {
-    return ng(['generate', 'component', 'my-comp', '--no-spec']).then(() => {
-      var testPath = path.join(root, 'tmp', 'foo', 'src', 'app', 'my-comp', 'my-comp.component.spec.ts');
-      expect(existsSync(testPath)).to.equal(false);
-    });
+  it('my-comp --no-spec', function () {
+    return ng(['generate', 'component', 'my-comp', '--no-spec']).then(() = > {
+        var testPath = path.join(root, 'tmp', 'foo', 'src', 'app', 'my-comp', 'my-comp.component.spec.ts');
+    expect(existsSync(testPath)).to.equal(false);
+  })
+    ;
   });
 });

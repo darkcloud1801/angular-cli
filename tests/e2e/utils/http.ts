@@ -6,8 +6,8 @@ export function request(url: string): Promise<string> {
   return new Promise((resolve, reject) => {
     let options = {
       url: url,
-      headers: { 'Accept': 'text/html' },
-      agentOptions: { rejectUnauthorized: false }
+      headers: {'Accept': 'text/html'},
+      agentOptions: {rejectUnauthorized: false}
     };
     _request(options, (error: any, response: IncomingMessage, body: string) => {
       if (error) {

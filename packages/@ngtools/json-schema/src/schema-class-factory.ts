@@ -5,7 +5,8 @@ import {JsonSchemaErrorBase} from './error';
 import './mimetypes';
 
 
-export class InvalidJsonPath extends JsonSchemaErrorBase {}
+export class InvalidJsonPath extends JsonSchemaErrorBase {
+}
 
 
 // The schema tree node property of the SchemaClass.
@@ -80,8 +81,8 @@ class SchemaClassBase<T> implements SchemaClass<T> {
   constructor(schema: Object, value: T, ...fallbacks: T[]) {
     (this as any)[kOriginalRoot] = value;
     const forward = fallbacks.length > 0
-                  ? (new SchemaClassBase<T>(schema, fallbacks.pop(), ...fallbacks).$$schema())
-                  : null;
+      ? (new SchemaClassBase<T>(schema, fallbacks.pop(), ...fallbacks).$$schema())
+      : null;
     (this as any)[kSchemaNode] = new RootSchemaTreeNode(this, {
       forward,
       value,
@@ -89,9 +90,17 @@ class SchemaClassBase<T> implements SchemaClass<T> {
     });
   }
 
-  $$root(): T { return this as any; }
-  $$schema(): RootSchemaTreeNode { return (this as any)[kSchemaNode] as RootSchemaTreeNode; }
-  $$originalRoot(): T { return (this as any)[kOriginalRoot] as T; }
+  $$root(): T {
+    return this as any;
+  }
+
+  $$schema(): RootSchemaTreeNode {
+    return (this as any)[kSchemaNode] as RootSchemaTreeNode;
+  }
+
+  $$originalRoot(): T {
+    return (this as any)[kOriginalRoot] as T;
+  }
 
   /** Sets the value of a destination if the value is currently undefined. */
   $$alias(source: string, destination: string) {

@@ -6,7 +6,7 @@ import {writeFile} from '../../utils/fs';
 import {addImportToModule} from '../../utils/ast';
 
 
-export default function() {
+export default function () {
   const oldHashes: {[module: string]: string} = {};
   const newHashes: {[module: string]: string} = {};
   // First, collect the hashes.

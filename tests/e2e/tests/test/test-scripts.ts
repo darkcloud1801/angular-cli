@@ -1,8 +1,8 @@
-import { writeMultipleFiles } from '../../utils/fs';
-import { ng } from '../../utils/process';
-import { updateJsonFile } from '../../utils/project';
-import { expectToFail } from '../../utils/utils';
-import { stripIndent } from 'common-tags';
+import {writeMultipleFiles} from '../../utils/fs';
+import {ng} from '../../utils/process';
+import {updateJsonFile} from '../../utils/project';
+import {expectToFail} from '../../utils/utils';
+import {stripIndent} from 'common-tags';
 
 export default function () {
   return Promise.resolve()
@@ -62,7 +62,7 @@ export default function () {
       const app = configJson['apps'][0];
       app['scripts'] = [
         'string-script.js',
-        { input: 'input-script.js' }
+        {input: 'input-script.js'}
       ];
     }))
     // should pass now

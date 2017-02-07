@@ -28,7 +28,7 @@ export interface SchemaNode {
   readonly description: string | null;
 
   // Object-only properties. `null` for everything else.
-  readonly children: { [key: string]: SchemaNode } | null;
+  readonly children: {[key: string]: SchemaNode} | null;
 
   // Array-only properties. `null` for everything else.
   readonly items: SchemaNode[] | null;

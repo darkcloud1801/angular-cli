@@ -9,6 +9,7 @@ class ExecStub {
     this.stack = [];
     this.failed = false;
   }
+
   execStubFunc(cmd) {
     let resp;
 
@@ -37,34 +38,44 @@ class ExecStub {
 
     return item.resp.apply(null, arguments);
   }
+
   hasFailed() {
     return this.failed;
   }
+
   hasEmptyStack() {
     return this.stack.length === 0;
   }
+
   restore() {
     this.stub.restore();
     return this;
   }
+
   addExecSuccess(cmd, sdout) {
     sdout = sdout || '';
     this.stack.push({
-      cmd,
-      resp: (cmd, opt, cb) => (cb ? cb : opt)(null, sdout, null)
-    });
+        cmd,
+        resp: (cmd, opt, cb) = > (cb ? cb : opt)(null, sdout, null)
+  })
+    ;
     return this;
   }
+
   addExecError(cmd, stderr) {
     stderr = stderr || '';
     this.stack.push({
-      cmd,
-      resp: (cmd, opt, cb) => (cb ? cb : opt)(new Error(stderr), null, stderr)
-    });
+        cmd,
+        resp: (cmd, opt, cb) = > (cb ? cb : opt)(new Error(stderr), null, stderr)
+  })
+    ;
     return this;
   }
+
   failedExec(reason) {
-    return (cmd, opt, cb) => (cb ? cb : opt)(new Error(reason), null, reason)
+    return (cmd, opt, cb) =
+  >
+    (cb ? cb : opt)(new Error(reason), null, reason)
   }
 }
 

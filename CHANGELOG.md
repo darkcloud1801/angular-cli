@@ -1,5 +1,129 @@
+<a name="1.0.0-beta.30"></a>
+# [1.0.0-beta.30](https://github.com/angular/angular-cli/compare/v1.0.0-beta.28...v1.0.0-beta.30) (2017-02-03)
+
+
+### Bug Fixes
+
+* **@angular/cli:** Backwards warning that global CLI is greater version than local CLI [#4341](https://github.com/angular/angular-cli/issues/4341) ([cc2651c](https://github.com/angular/angular-cli/commit/cc2651c))
+* **@angular/cli:** properly check the project status ([#4381](https://github.com/angular/angular-cli/issues/4381)) ([1dd5399](https://github.com/angular/angular-cli/commit/1dd5399)), closes [#4379](https://github.com/angular/angular-cli/issues/4379)
+* **@ngtools/webpack:** change of CSS no longer breaks rebuild ([#4334](https://github.com/angular/angular-cli/issues/4334)) ([9afaa3a](https://github.com/angular/angular-cli/commit/9afaa3a)), closes [#4326](https://github.com/angular/angular-cli/issues/4326) [#4329](https://github.com/angular/angular-cli/issues/4329)
+* **@ngtools/webpack:** only diagnose each resource once ([#4374](https://github.com/angular/angular-cli/issues/4374)) ([b0c1551](https://github.com/angular/angular-cli/commit/b0c1551))
+* **@ngtools/webpack:** prevent emitting of sourcemaps ([#4221](https://github.com/angular/angular-cli/issues/4221)) ([a6b1bdd](https://github.com/angular/angular-cli/commit/a6b1bdd))
+
+
+<a name="1.0.0-beta.29"></a>
+# [1.0.0-beta.29](https://github.com/angular/angular-cli/compare/v1.0.0-beta.28...v1.0.0-beta.29) (2017-02-03)
+
+### Features
+
+* **@angular/cli:** move angular-cli to @angular/cli ([#4328](https://github.com/angular/angular-cli/issues/4328)) ([601f9b3](https://github.com/angular/angular-cli/commit/601f9b3))
+
+
+<a name="1.0.0-beta.28"></a>
+# [1.0.0-beta.28](https://github.com/angular/angular-cli/compare/v1.0.0-beta.26...v1.0.0-beta.28) (2017-02-01)
+
+
+### Bug Fixes
+
+* **@ngtools/json-schema:** values of non-existent objects should return undefined ([#4300](https://github.com/angular/angular-cli/issues/4300)) ([95f28fd](https://github.com/angular/angular-cli/commit/95f28fd))
+* **@ngtools/webpack:** don't override context module deps ([#4153](https://github.com/angular/angular-cli/issues/4153)) ([4b9af62](https://github.com/angular/angular-cli/commit/4b9af62)), closes [#2496](https://github.com/angular/angular-cli/issues/2496)
+* **@ngtools/webpack:** skip null files ([#4168](https://github.com/angular/angular-cli/issues/4168)) ([43c6861](https://github.com/angular/angular-cli/commit/43c6861)), closes [#4165](https://github.com/angular/angular-cli/issues/4165)
+* **build:** don't leave dist folder on fail ([#4047](https://github.com/angular/angular-cli/issues/4047)) ([790dda6](https://github.com/angular/angular-cli/commit/790dda6))
+* **build:** ExtractTextWebpack 2.0.0-rc.1 and remove unsupported prop ([#4265](https://github.com/angular/angular-cli/issues/4265)) ([1bbd12d](https://github.com/angular/angular-cli/commit/1bbd12d)), closes [#4264](https://github.com/angular/angular-cli/issues/4264)
+* **css:** emit css sourcemaps only when extracting ([#4280](https://github.com/angular/angular-cli/issues/4280)) ([3aa55d7](https://github.com/angular/angular-cli/commit/3aa55d7))
+* **deps:** pin lodash types ([#4260](https://github.com/angular/angular-cli/issues/4260)) ([5f6a7f2](https://github.com/angular/angular-cli/commit/5f6a7f2))
+* **deps:** update mocha dev dependency ([#4291](https://github.com/angular/angular-cli/issues/4291)) ([49d15b3](https://github.com/angular/angular-cli/commit/49d15b3))
+* **docs:** remove mention to code formatting ([c079ccf](https://github.com/angular/angular-cli/commit/c079ccf)), closes [#4144](https://github.com/angular/angular-cli/issues/4144)
+* **lint:** fix new linting errors ([#4241](https://github.com/angular/angular-cli/issues/4241)) ([76f8827](https://github.com/angular/angular-cli/commit/76f8827))
+* **polyfills:** move polyfills to own entry point ([#3812](https://github.com/angular/angular-cli/issues/3812)) ([08bb738](https://github.com/angular/angular-cli/commit/08bb738)), closes [#2752](https://github.com/angular/angular-cli/issues/2752) [#3309](https://github.com/angular/angular-cli/issues/3309) [#4140](https://github.com/angular/angular-cli/issues/4140)
+* **scripts:** allow using same lib inside app ([#3814](https://github.com/angular/angular-cli/issues/3814)) ([a2ea05e](https://github.com/angular/angular-cli/commit/a2ea05e)), closes [#2141](https://github.com/angular/angular-cli/issues/2141)
+* **serve:** delete dist on serve ([#4293](https://github.com/angular/angular-cli/issues/4293)) ([8e82d17](https://github.com/angular/angular-cli/commit/8e82d17))
+* **serve:** improve error message when port is in use ([#4167](https://github.com/angular/angular-cli/issues/4167)) ([75e83a4](https://github.com/angular/angular-cli/commit/75e83a4))
+* **styles:** correctly output sourcemaps ([#4222](https://github.com/angular/angular-cli/issues/4222)) ([c29ed53](https://github.com/angular/angular-cli/commit/c29ed53)), closes [#2020](https://github.com/angular/angular-cli/issues/2020)
+
+
+### Code Refactoring
+
+* **build:** consolidate build options ([#4105](https://github.com/angular/angular-cli/issues/4105)) ([e15433e](https://github.com/angular/angular-cli/commit/e15433e))
+* **lint:** use tslint api for linting ([#4248](https://github.com/angular/angular-cli/issues/4248)) ([0664beb](https://github.com/angular/angular-cli/commit/0664beb)), closes [#867](https://github.com/angular/angular-cli/issues/867) [#3993](https://github.com/angular/angular-cli/issues/3993)
+* **test:** remove lint option from test command ([#4261](https://github.com/angular/angular-cli/issues/4261)) ([645c870](https://github.com/angular/angular-cli/commit/645c870))
+
+
+### Features
+
+* **@ngtools/webpack:** remove annotations ([#4301](https://github.com/angular/angular-cli/issues/4301)) ([439dcd7](https://github.com/angular/angular-cli/commit/439dcd7))
+* **angular-cli:** Add a postinstall warning for Node 4 deprecation. ([#4309](https://github.com/angular/angular-cli/issues/4309)) ([916e9bd](https://github.com/angular/angular-cli/commit/916e9bd))
+* **build:** minify/optimize component stylesheets ([#4259](https://github.com/angular/angular-cli/issues/4259)) ([499ef2f](https://github.com/angular/angular-cli/commit/499ef2f))
+* **serve:** Persist serve options in angular-cli.json ([#3908](https://github.com/angular/angular-cli/issues/3908)) ([da255b0](https://github.com/angular/angular-cli/commit/da255b0)), closes [#1156](https://github.com/angular/angular-cli/issues/1156)
+* **update:** add ng update as alias of ng init ([#4142](https://github.com/angular/angular-cli/issues/4142)) ([2211172](https://github.com/angular/angular-cli/commit/2211172)), closes [#4007](https://github.com/angular/angular-cli/issues/4007)
+
+
+### Performance Improvements
+
+* **@ngtools/webpack:** Improve rebuild performance ([#4145](https://github.com/angular/angular-cli/issues/4145)) ([9d033e7](https://github.com/angular/angular-cli/commit/9d033e7))
+* **@ngtools/webpack:** improve rebuild performance ([#4188](https://github.com/angular/angular-cli/issues/4188)) ([7edac2b](https://github.com/angular/angular-cli/commit/7edac2b))
+* **@ngtools/webpack:** reduce rebuild performance by typechecking more ([#4258](https://github.com/angular/angular-cli/issues/4258)) ([29b134d](https://github.com/angular/angular-cli/commit/29b134d))
+
+
+### BREAKING CHANGES
+
+* angular-cli: Node < 6.9 will be deprecated soon, and this will show a warning to users. Moving forward, that warning will be moved to an error with the next release.
+* test: ng test no longer has the --lint flag available.
+* lint: In order to use the updated `ng lint` command, the following section will have to be added to the project's `angular-cli.json` at the root level of the json object.
+
+  ```json
+  "lint": [
+    {
+      "files": "src/**/*.ts",
+      "project": "src/tsconfig.json"
+    },
+    {
+      "files": "e2e/**/*.ts",
+      "project": "e2e/tsconfig.json"
+    }
+  ],
+  ```
+
+Alternatively, you can run `ng update`.
+* build: - `--extractCss` defaults to `false` on all `--dev` (`ng build` with no flags uses `--dev`)
+-  `--aot` defaults to true in `--prod`
+- the alias for `--output-path` is now `-op` instead of `-o`
+
+
+
+<a name="1.0.0-beta.26"></a>
+# [1.0.0-beta.26](https://github.com/angular/angular-cli/compare/v1.0.0-beta.25...v1.0.0-beta.26) (2017-01-19)
+
+
+### Bug Fixes
+
+* **@ngtools/json-schema:** serialize object properties better. ([#4103](https://github.com/angular/angular-cli/issues/4103)) ([48d1e44](https://github.com/angular/angular-cli/commit/48d1e44)), closes [#4044](https://github.com/angular/angular-cli/issues/4044)
+* **@ngtools/webpack:** dont error on non-identifier properties. ([#4078](https://github.com/angular/angular-cli/issues/4078)) ([e91552f](https://github.com/angular/angular-cli/commit/e91552f))
+* **@ngtools/webpack:** honor tsconfig#angularCompilerOptions.entryModule before trying to resolveEntryModuleFromMain() ([#4013](https://github.com/angular/angular-cli/issues/4013)) ([c9ac263](https://github.com/angular/angular-cli/commit/c9ac263))
+* **build:** override publicPath for ExtractTextPlugin and add extract-css test ([#4036](https://github.com/angular/angular-cli/issues/4036)) ([c1f1e0c](https://github.com/angular/angular-cli/commit/c1f1e0c))
+* **generate:** correct component path when module is generated in subfolder, and parent folder is not a module too ([#3916](https://github.com/angular/angular-cli/issues/3916)) ([f70feae](https://github.com/angular/angular-cli/commit/f70feae)), closes [#3255](https://github.com/angular/angular-cli/issues/3255)
+* **generate:** normalize pwd before using it ([#4065](https://github.com/angular/angular-cli/issues/4065)) ([09e1eb3](https://github.com/angular/angular-cli/commit/09e1eb3)), closes [#1639](https://github.com/angular/angular-cli/issues/1639)
+* **get/set:** Add support for global configuration. ([#4074](https://github.com/angular/angular-cli/issues/4074)) ([088ebf0](https://github.com/angular/angular-cli/commit/088ebf0))
+* **help:** remove ember references in console output ([#4026](https://github.com/angular/angular-cli/issues/4026)) ([394aa05](https://github.com/angular/angular-cli/commit/394aa05))
+* **help:** remove match of *.run.ts files ([#3982](https://github.com/angular/angular-cli/issues/3982)) ([7b47753](https://github.com/angular/angular-cli/commit/7b47753))
+* **new:** improve error message when project name does not match regex ([bf23b13](https://github.com/angular/angular-cli/commit/bf23b13)), closes [#3816](https://github.com/angular/angular-cli/issues/3816) [#3902](https://github.com/angular/angular-cli/issues/3902)
+* **test:** remove webpack size limit warning ([#3974](https://github.com/angular/angular-cli/issues/3974)) ([5df4799](https://github.com/angular/angular-cli/commit/5df4799))
+
+
+### Features
+
+* **@ngtools/json-schema:** add support for enums. ([c034a44](https://github.com/angular/angular-cli/commit/c034a44)), closes [#4082](https://github.com/angular/angular-cli/issues/4082)
+* **build:** add style paths ([#4003](https://github.com/angular/angular-cli/issues/4003)) ([e5ef996](https://github.com/angular/angular-cli/commit/e5ef996)), closes [#1791](https://github.com/angular/angular-cli/issues/1791)
+* **build:** use NamedModulesPlugin with HMR ([c5b2244](https://github.com/angular/angular-cli/commit/c5b2244)), closes [#3679](https://github.com/angular/angular-cli/issues/3679) [#4037](https://github.com/angular/angular-cli/issues/4037)
+* **deploy:** add custom-domain support for gh-pages deployment ([#1781](https://github.com/angular/angular-cli/issues/1781)) ([#3392](https://github.com/angular/angular-cli/issues/3392)) ([a54bc16](https://github.com/angular/angular-cli/commit/a54bc16))
+* **generate:** add option to auto-export declarations ([#3876](https://github.com/angular/angular-cli/issues/3876)) ([6d63bb4](https://github.com/angular/angular-cli/commit/6d63bb4)), closes [#3778](https://github.com/angular/angular-cli/issues/3778)
+* **generate:** create parent directories required for blueprints if they do not exist ([76380a6](https://github.com/angular/angular-cli/commit/76380a6)), closes [#3307](https://github.com/angular/angular-cli/issues/3307) [#3912](https://github.com/angular/angular-cli/issues/3912)
+* **gh-pages:deploy:** add aot and vendor-chunk options for gh-pages:deploy ([#4073](https://github.com/angular/angular-cli/issues/4073)) ([71445c3](https://github.com/angular/angular-cli/commit/71445c3))
+
+
+
 <a name="1.0.0-beta.25"></a>
-# [1.0.0-beta.25](https://github.com/angular/angular-cli/compare/v1.0.0-beta.23...v1.0.0-beta.25) (2017-01-12)
+# [1.0.0-beta.25](https://github.com/angular/angular-cli/compare/v1.0.0-beta.24...v1.0.0-beta.25) (2017-01-12)
 
 
 ### Bug Fixes

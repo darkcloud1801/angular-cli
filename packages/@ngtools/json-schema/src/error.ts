@@ -1,4 +1,3 @@
-
 export class JsonSchemaErrorBase extends Error {
   constructor(message?: string) {
     super();

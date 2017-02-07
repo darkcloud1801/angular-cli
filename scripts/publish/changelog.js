@@ -28,16 +28,16 @@ var config = {
   releaseCount: 1
 };
 
-var prependDelta = function() {
+var prependDelta = function () {
   exec('cat CHANGELOG-delta.md CHANGELOG.md > CHANGELOG-new.md;' +
-       'mv CHANGELOG-new.md CHANGELOG.md;' +
-       'rm CHANGELOG-delta.md');
+    'mv CHANGELOG-new.md CHANGELOG.md;' +
+    'rm CHANGELOG-delta.md');
 }
 
-cl(config, null, { from: process.argv[2] })
-    .on('error', function(err) {
-      // eslint-disable-next-line no-console
-      console.error('Failed to generate changelog: ' + err);
-    })
-    .pipe(changelogStream)
-    .on('close', prependDelta);
+cl(config, null, {from: process.argv[2]})
+  .on('error', function (err) {
+    // eslint-disable-next-line no-console
+    console.error('Failed to generate changelog: ' + err);
+  })
+  .pipe(changelogStream)
+  .on('close', prependDelta);

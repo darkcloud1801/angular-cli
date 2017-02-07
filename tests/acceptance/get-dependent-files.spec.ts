@@ -1,11 +1,11 @@
 'use strict';
 
-// This needs to be first so fs module can be mocked correctly. 
+// This needs to be first so fs module can be mocked correctly.
 let mockFs = require('mock-fs');
-import { expect, assert } from 'chai';
+import {expect, assert} from 'chai';
 import * as path from 'path';
 import * as ts from 'typescript';
-import * as dependentFilesUtils from 'angular-cli/utilities/get-dependent-files';
+import * as dependentFilesUtils from '@angular/cli/utilities/get-dependent-files';
 
 describe('Get Dependent Files: ', () => {
   let rootPath = 'src/app';
@@ -112,7 +112,7 @@ describe('Get Dependent Files: ', () => {
       let sourceFile = path.join(rootPath, 'bar');
       dependentFilesUtils.hasIndexFile(sourceFile)
         .then((booleanValue: boolean) => {
-            expect(booleanValue).to.be.false;
+          expect(booleanValue).to.be.false;
         });
     });
   });
@@ -128,7 +128,7 @@ describe('Get Dependent Files: ', () => {
             'src/app/foo/foo.component.spec.ts',
             'src/app/foo/foo.component.ts'
           ];
-        assert.deepEqual(files, expectedContents);
+          assert.deepEqual(files, expectedContents);
         });
     });
     it('when the component name has non-Angular tag', () => {
@@ -140,7 +140,7 @@ describe('Get Dependent Files: ', () => {
             'src/app/noAngular.tag.sass',
             'src/app/noAngular.tag.spec.ts',
             'src/app/noAngular.tag.ts'
-            ];
+          ];
           assert.deepEqual(files, expectedContents);
         });
     });
@@ -153,7 +153,7 @@ describe('Get Dependent Files: ', () => {
             'src/app/quux/quux.html',
             'src/app/quux/quux.spec.ts',
             'src/app/quux/quux.ts'
-            ];
+          ];
           assert.deepEqual(files, expectedContents);
         });
     });
@@ -169,9 +169,9 @@ describe('Get Dependent Files: ', () => {
           let noModuleSpecFile = path.join(rootPath, 'foo-baz/no-module.component.spec.ts');
           let expectedContents: dependentFilesUtils.ModuleMap = {};
           expectedContents[bazFile] = [{
-              specifierText: '../bar.component',
-              pos: 13,
-              end: 32
+            specifierText: '../bar.component',
+            pos: 13,
+            end: 32
           }];
           expectedContents[fooFile] = [{
             specifierText: '../bar/bar.component',
@@ -213,5 +213,5 @@ describe('Get Dependent Files: ', () => {
           assert.deepEqual(contents, {});
         });
     });
- });
+  });
 });

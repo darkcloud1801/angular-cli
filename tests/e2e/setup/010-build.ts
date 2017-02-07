@@ -5,7 +5,7 @@ import {updateJsonFile} from '../utils/project';
 
 const packages = require('../../../lib/packages');
 
-export default function() {
+export default function () {
   const argv = getGlobalVariable('argv');
 
   return npm('run', 'build')

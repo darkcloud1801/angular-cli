@@ -11,7 +11,13 @@ interface ExecOptions {
 
 let _processes: child_process.ChildProcess[] = [];
 
-function _exec(options: ExecOptions, cmd: string, args: string[]): Promise<string> {
+type ProcessOutput = {
+  stdout: string;
+  stdout: string;
+};
+
+
+function _exec(options: ExecOptions, cmd: string, args: string[]): Promise<ProcessOutput> {
   let stdout = '';
   let stderr = '';
   const cwd = process.cwd();
@@ -51,6 +57,9 @@ function _exec(options: ExecOptions, cmd: string, args: string[]): Promise<strin
   });
   childProcess.stderr.on('data', (data: Buffer) => {
     stderr += data.toString('utf-8');
+    if (options.silent) {
+      return;
+    }
     data.toString('utf-8')
       .split(/[\n\r]+/)
       .filter(line => line !== '')
@@ -76,11 +85,36 @@ function _exec(options: ExecOptions, cmd: string, args: string[]): Promise<strin
     if (options.waitForMatch) {
       childProcess.stdout.on('data', (data: Buffer) => {
         if (data.toString().match(options.waitForMatch)) {
-          resolve(stdout);
+          resolve({stdout, stderr});
         }
       });
     }
   });
+}
+
+export function waitForAnyProcessOutputToMatch(match: RegExp,
+                                               timeout = 30000): Promise<ProcessOutput> {
+  // Race between _all_ processes, and the timeout. First one to resolve/reject wins.
+  return Promise.race(_processes.map(childProcess => new Promise(resolve => {
+    let stdout = '';
+    let stderr = '';
+    childProcess.stdout.on('data', (data: Buffer) => {
+      stdout += data.toString();
+      if (data.toString().match(match)) {
+        resolve({stdout, stderr});
+      }
+    });
+    childProcess.stderr.on('data', (data: Buffer) => {
+      stderr += data.toString();
+    });
+  })).concat([
+    new Promise((resolve, reject) => {
+      // Wait for 30 seconds and timeout.
+      setTimeout(() => {
+        reject(new Error(`Waiting for ${match} timed out (timeout: ${timeout}msec)...`));
+      }, timeout);
+    })
+  ]));
 }
 
 export function killAllProcesses(signal = 'SIGTERM') {
@@ -93,11 +127,11 @@ export function exec(cmd: string, ...args: string[]) {
 }
 
 export function execAndWaitForOutputToMatch(cmd: string, args: string[], match: RegExp) {
-  return _exec({ waitForMatch: match }, cmd, args);
+  return _exec({waitForMatch: match}, cmd, args);
 }
 
 export function silentExecAndWaitForOutputToMatch(cmd: string, args: string[], match: RegExp) {
-  return _exec({ silent: true, waitForMatch: match }, cmd, args);
+  return _exec({silent: true, waitForMatch: match}, cmd, args);
 }
 
 export function ng(...args: string[]) {

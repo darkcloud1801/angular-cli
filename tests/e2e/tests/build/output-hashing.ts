@@ -1,7 +1,7 @@
 import {stripIndents} from 'common-tags';
 import * as fs from 'fs';
 import {ng} from '../../utils/process';
-import { writeMultipleFiles, expectFileToMatch } from '../../utils/fs';
+import {writeMultipleFiles, expectFileToMatch} from '../../utils/fs';
 
 function verifyMedia(css: RegExp, content: RegExp) {
   return new Promise((resolve, reject) => {
@@ -11,16 +11,16 @@ function verifyMedia(css: RegExp, content: RegExp) {
     }
     resolve(fileName);
   })
-  .then(fileName => expectFileToMatch(`dist/${fileName}`, content));
+    .then(fileName => expectFileToMatch(`dist/${fileName}`, content));
 }
 
-export default function() {
+export default function () {
   return Promise.resolve()
     .then(() => writeMultipleFiles({
-    'src/styles.css': stripIndents`
+      'src/styles.css': stripIndents`
       body { background-image: url("image.svg"); }
     `,
-    'src/image.svg': 'I would like to be an image someday.'
+      'src/image.svg': 'I would like to be an image someday.'
     }))
     .then(() => ng('build', '--dev', '--output-hashing=all'))
     .then(() => expectFileToMatch('dist/index.html', /inline\.[0-9a-f]{20}\.bundle\.js/))

@@ -4,7 +4,7 @@ import {ng} from '../../utils/process';
 import {stripIndents} from 'common-tags';
 
 
-export default function() {
+export default function () {
   return updateTsConfig(json => {
     json['compilerOptions']['baseUrl'] = '.';
     json['compilerOptions']['paths'] = {
@@ -16,12 +16,12 @@ export default function() {
       ]
     };
   })
-  .then(() => createDir('src/app/shared'))
-  .then(() => writeMultipleFiles({
-    'src/app/shared/meaning.ts': 'export var meaning = 42;',
-    'src/app/shared/index.ts': `export * from './meaning'`
-  }))
-  .then(() => appendToFile('src/app/app.component.ts', stripIndents`
+    .then(() => createDir('src/app/shared'))
+    .then(() => writeMultipleFiles({
+      'src/app/shared/meaning.ts': 'export var meaning = 42;',
+      'src/app/shared/index.ts': `export * from './meaning'`
+    }))
+    .then(() => appendToFile('src/app/app.component.ts', stripIndents`
     import { meaning } from 'app/shared/meaning';
     import { meaning as meaning2 } from '@shared';
     import { meaning as meaning3 } from '@shared/meaning';
@@ -32,5 +32,5 @@ export default function() {
     console.log(meaning2)
     console.log(meaning3)
   `))
-  .then(() => ng('build'));
+    .then(() => ng('build'));
 }

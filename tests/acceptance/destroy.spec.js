@@ -20,18 +20,28 @@ describe('Acceptance: ng destroy', function () {
   });
 
   it('without args should fail', function () {
-    return ng(['destroy']).then(() => {
-      throw new SilentError('ng destroy should fail.');
-    }, (err) => {
-      expect(err.message).to.equal('The destroy command is not supported by Angular-CLI.');
-    });
+    return ng(['destroy']).then(() = > {
+        throw new SilentError('ng destroy should fail.');
+  },
+    (err) =
+    >
+    {
+      expect(err.message).to.equal('The destroy command is not supported by Angular CLI.');
+    }
+    )
+    ;
   });
 
   it('with args should fail', function () {
-    return ng(['destroy', 'something']).then(() => {
-      throw new SilentError('ng destroy something should fail.');
-    }, (err) => {
-      expect(err.message).to.equal('The destroy command is not supported by Angular-CLI.');
-    });
+    return ng(['destroy', 'something']).then(() = > {
+        throw new SilentError('ng destroy something should fail.');
+  },
+    (err) =
+    >
+    {
+      expect(err.message).to.equal('The destroy command is not supported by Angular CLI.');
+    }
+    )
+    ;
   });
 });

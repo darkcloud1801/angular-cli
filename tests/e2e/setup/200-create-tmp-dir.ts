@@ -3,7 +3,7 @@ import {setGlobalVariable, getGlobalVariable} from '../utils/env';
 
 const temp = require('temp');
 
-export default function() {
+export default function () {
   const argv = getGlobalVariable('argv');
 
   // Get to a temporary directory.

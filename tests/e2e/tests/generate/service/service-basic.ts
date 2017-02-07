@@ -3,7 +3,7 @@ import {ng} from '../../../utils/process';
 import {expectFileToExist} from '../../../utils/fs';
 
 
-export default function() {
+export default function () {
   // Does not create a sub directory.
   const serviceDir = join('src', 'app');
 

@@ -1,8 +1,8 @@
-import { request } from '../../utils/http';
-import { killAllProcesses } from '../../utils/process';
-import { ngServe } from '../../utils/project';
-import { updateJsonFile } from '../../utils/project';
-import { moveFile } from '../../utils/fs';
+import {request} from '../../utils/http';
+import {killAllProcesses} from '../../utils/process';
+import {ngServe} from '../../utils/project';
+import {updateJsonFile} from '../../utils/project';
+import {moveFile} from '../../utils/fs';
 
 
 export default function () {
@@ -15,7 +15,10 @@ export default function () {
         throw new Error('Response does not match expected value.');
       }
     })
-    .then(() => killAllProcesses(), (err) => { killAllProcesses(); throw err; })
+    .then(() => killAllProcesses(), (err) => {
+      killAllProcesses();
+      throw err;
+    })
     // should correctly fallback to a changed index
     .then(() => moveFile('src/index.html', 'src/not-index.html'))
     .then(() => updateJsonFile('angular-cli.json', configJson => {
@@ -29,5 +32,8 @@ export default function () {
         throw new Error('Response does not match expected value.');
       }
     })
-    .then(() => killAllProcesses(), (err) => { killAllProcesses(); throw err; });
+    .then(() => killAllProcesses(), (err) => {
+      killAllProcesses();
+      throw err;
+    });
 }

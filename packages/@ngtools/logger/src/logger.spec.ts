@@ -11,8 +11,8 @@ describe('Logger', () => {
       .toPromise()
       .then((observed: JsonValue[]) => {
         expect(observed).toEqual([
-          jasmine.objectContaining({ message: 'hello', level: 'debug', name: 'test' }),
-          jasmine.objectContaining({ message: 'world', level: 'info', name: 'test' }),
+          jasmine.objectContaining({message: 'hello', level: 'debug', name: 'test'}),
+          jasmine.objectContaining({message: 'world', level: 'info', name: 'test'}),
         ]);
       })
       .then(() => done(), (err: any) => done.fail(err));
@@ -30,8 +30,8 @@ describe('Logger', () => {
       .toPromise()
       .then((observed: JsonValue[]) => {
         expect(observed).toEqual([
-          jasmine.objectContaining({ message: 'hello', level: 'debug', name: 'child' }),
-          jasmine.objectContaining({ message: 'world', level: 'info', name: 'child' }),
+          jasmine.objectContaining({message: 'hello', level: 'debug', name: 'child'}),
+          jasmine.objectContaining({message: 'world', level: 'info', name: 'child'}),
         ]);
         expect(hasCompleted).toBe(true);
       })

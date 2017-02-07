@@ -3,7 +3,7 @@ import {ng} from '../../../utils/process';
 import {expectFileToExist} from '../../../utils/fs';
 
 
-export default function() {
+export default function () {
   const upperDirs = join('non', 'existing', 'dir');
   const rootDir = join('src', 'app', upperDirs);
 

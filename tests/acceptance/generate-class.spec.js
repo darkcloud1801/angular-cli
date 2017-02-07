@@ -25,22 +25,31 @@ describe('Acceptance: ng generate class', function () {
   });
 
   it('ng generate class my-class', function () {
-    return ng(['generate', 'class', 'my-class']).then(() => {
-      expect(existsSync(path.join(testPath, 'my-class.ts'))).to.equal(true);
-      expect(existsSync(path.join(testPath, 'my-class.spec.ts'))).to.equal(false);
-    });
+    return ng(['generate', 'class', 'my-class']).then(() = > {
+        expect(existsSync(path.join(testPath, 'my-class.ts'))
+    ).
+    to.equal(true);
+    expect(existsSync(path.join(testPath, 'my-class.spec.ts'))).to.equal(false);
+  })
+    ;
   });
 
   it('ng generate class my-class --no-spec', function () {
-    return ng(['generate', 'class', 'my-class', '--no-spec']).then(() => {
-      expect(existsSync(path.join(testPath, 'my-class.ts'))).to.equal(true);
-      expect(existsSync(path.join(testPath, 'my-class.spec.ts'))).to.equal(false);
-    });
+    return ng(['generate', 'class', 'my-class', '--no-spec']).then(() = > {
+        expect(existsSync(path.join(testPath, 'my-class.ts'))
+    ).
+    to.equal(true);
+    expect(existsSync(path.join(testPath, 'my-class.spec.ts'))).to.equal(false);
+  })
+    ;
   });
 
   it('ng generate class my-class.model', function () {
-    return ng(['generate', 'class', 'my-class.model']).then(() => {
-      expect(existsSync(path.join(testPath, 'my-class.model.ts'))).to.equal(true);
-    });
+    return ng(['generate', 'class', 'my-class.model']).then(() = > {
+        expect(existsSync(path.join(testPath, 'my-class.model.ts'))
+    ).
+    to.equal(true);
+  })
+    ;
   });
 });

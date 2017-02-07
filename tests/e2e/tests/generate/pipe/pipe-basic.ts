@@ -3,7 +3,7 @@ import {ng} from '../../../utils/process';
 
 import {expectFileToExist} from '../../../utils/fs';
 
-export default function() {
+export default function () {
   // Create the pipe in the same directory.
   const pipeDir = join('src', 'app');
 

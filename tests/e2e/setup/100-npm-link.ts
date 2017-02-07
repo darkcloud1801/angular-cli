@@ -14,7 +14,7 @@ export default function () {
         return;
       }
 
-      const distAngularCli = join(__dirname, '../../../dist/angular-cli');
+      const distAngularCli = packages['@angular/cli'].dist;
       const oldCwd = process.cwd();
       process.chdir(distAngularCli);
 
@@ -33,8 +33,8 @@ export default function () {
           }
         });
       }))
-      .then(() => npm('link'))
-      .then(() => process.chdir(oldCwd));
+        .then(() => npm('link'))
+        .then(() => process.chdir(oldCwd));
     })
     .then(() => exec(process.platform.startsWith('win') ? 'where' : 'which', 'ng'));
 }

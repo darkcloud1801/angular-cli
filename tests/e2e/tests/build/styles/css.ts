@@ -2,8 +2,9 @@ import {
   writeMultipleFiles,
   expectFileToMatch,
 } from '../../../utils/fs';
-import { ng } from '../../../utils/process';
-import { stripIndents } from 'common-tags';
+import {expectToFail} from '../../../utils/utils';
+import {ng} from '../../../utils/process';
+import {stripIndents} from 'common-tags';
 
 export default function () {
   return writeMultipleFiles({
@@ -20,11 +21,13 @@ export default function () {
           background: #fff;
         }
       }
-    `})
-    .then(() => ng('build'))
+    `
+  })
+    .then(() => ng('build', '--extract-css', '--sourcemap'))
     .then(() => expectFileToMatch('dist/styles.bundle.css',
       /body\s*{\s*background-color: blue;\s*}/))
     .then(() => expectFileToMatch('dist/styles.bundle.css',
       /p\s*{\s*background-color: red;\s*}/))
+    .then(() => expectToFail(() => expectFileToMatch('dist/styles.bundle.css', '"mappings":""')))
     .then(() => expectFileToMatch('dist/main.bundle.js', /.outer.*.inner.*background:\s*#[fF]+/));
 }

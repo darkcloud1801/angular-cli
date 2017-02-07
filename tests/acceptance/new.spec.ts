@@ -4,7 +4,7 @@ const existsSync = require('exists-sync');
 const expect = require('chai').expect;
 const forEach = require('lodash/forEach');
 const walkSync = require('walk-sync');
-const Blueprint = require('angular-cli/ember-cli/lib/models/blueprint');
+const Blueprint = require('@angular/cli/ember-cli/lib/models/blueprint');
 const path = require('path');
 const tmp = require('../helpers/tmp');
 const root = process.cwd();
@@ -37,7 +37,7 @@ describe('Acceptance: ng new', function () {
       });
 
       expected.forEach(function (file, index) {
-        expected[index] = file.replace(/__name__/g, 'angular-cli');
+        expected[index] = file.replace(/__name__/g, '@angular/cli');
       });
 
       expected.sort();
@@ -56,23 +56,38 @@ describe('Acceptance: ng new', function () {
 
   it('requires a valid name (!)', () => {
     return ng(['new', '!', '--skip-npm', '--skip-git', '--inline-template'])
-      .then(() => { throw new Error(); }, () => {});
+      .then(() => {
+        throw new Error();
+      }, () => {
+      });
   });
   it('requires a valid name (abc-.)', () => {
     return ng(['new', 'abc-.', '--skip-npm', '--skip-git', '--inline-template'])
-      .then(() => { throw new Error(); }, () => {});
+      .then(() => {
+        throw new Error();
+      }, () => {
+      });
   });
   it('requires a valid name (abc-)', () => {
     return ng(['new', 'abc-', '--skip-npm', '--skip-git', '--inline-template'])
-      .then(() => { throw new Error(); }, () => {});
+      .then(() => {
+        throw new Error();
+      }, () => {
+      });
   });
   it('requires a valid name (abc-def-)', () => {
     return ng(['new', 'abc-def-', '--skip-npm', '--skip-git', '--inline-template'])
-      .then(() => { throw new Error(); }, () => {});
+      .then(() => {
+        throw new Error();
+      }, () => {
+      });
   });
   it('requires a valid name (abc-123)', () => {
     return ng(['new', 'abc-123', '--skip-npm', '--skip-git', '--inline-template'])
-      .then(() => { throw new Error(); }, () => {});
+      .then(() => {
+        throw new Error();
+      }, () => {
+      });
   });
   it('requires a valid name (abc)', () => {
     return ng(['new', 'abc', '--skip-npm', '--skip-git', '--inline-template']);
@@ -111,11 +126,11 @@ describe('Acceptance: ng new', function () {
     });
   });
 
-  it('Cannot run ng new, inside of angular-cli project', function () {
+  it('Cannot run ng new, inside of Angular CLI project', function () {
     return ng(['new', 'foo', '--skip-npm', '--skip-git'])
       .then(function () {
         return ng(['new', 'foo', '--skip-npm', '--skip-git']).then(() => {
-          throw new SilentError('Cannot run ng new, inside of angular-cli project should fail.');
+          throw new SilentError('Cannot run ng new, inside of Angular CLI project should fail.');
         }, () => {
           expect(!existsSync('foo'));
         });

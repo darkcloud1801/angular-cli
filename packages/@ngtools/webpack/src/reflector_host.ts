@@ -8,7 +8,7 @@ export function patchReflectorHost(codeGenerator: CodeGenerator) {
   const reflectorHost = (codeGenerator as any).reflectorHost;
   const oldGIP = reflectorHost.getImportPath;
 
-  reflectorHost.getImportPath = function(containingFile: string, importedFile: string): string {
+  reflectorHost.getImportPath = function (containingFile: string, importedFile: string): string {
     // Hack together SCSS and LESS files URLs so that they match what the default ReflectorHost
     // is expected. We only do that for shimmed styles.
     const m = importedFile.match(/(.*)(\.css|\.scss|\.less|\.stylus)((?:\.shim)?)(\..+)/);

@@ -22,30 +22,91 @@ export class VirtualStats implements fs.Stats {
   protected _uid = process.env['UID'] || 0;
   protected _gid = process.env['GID'] || 0;
 
-  constructor(protected _path: string) {}
+  constructor(protected _path: string) {
+  }
 
-  isFile() { return false; }
-  isDirectory() { return false; }
-  isBlockDevice() { return false; }
-  isCharacterDevice() { return false; }
-  isSymbolicLink() { return false; }
-  isFIFO() { return false; }
-  isSocket() { return false; }
+  isFile() {
+    return false;
+  }
 
-  get dev() { return this._dev; }
-  get ino() { return this._ino; }
-  get mode() { return this._mode; }
-  get nlink() { return 1; }  // Default to 1 hard link.
-  get uid() { return this._uid; }
-  get gid() { return this._gid; }
-  get rdev() { return 0; }
-  get size() { return 0; }
-  get blksize() { return 512; }
-  get blocks() { return Math.ceil(this.size / this.blksize); }
-  get atime() { return this._atime; }
-  get mtime() { return this._mtime; }
-  get ctime() { return this._ctime; }
-  get birthtime() { return this._btime; }
+  isDirectory() {
+    return false;
+  }
+
+  isBlockDevice() {
+    return false;
+  }
+
+  isCharacterDevice() {
+    return false;
+  }
+
+  isSymbolicLink() {
+    return false;
+  }
+
+  isFIFO() {
+    return false;
+  }
+
+  isSocket() {
+    return false;
+  }
+
+  get dev() {
+    return this._dev;
+  }
+
+  get ino() {
+    return this._ino;
+  }
+
+  get mode() {
+    return this._mode;
+  }
+
+  get nlink() {
+    return 1;
+  }  // Default to 1 hard link.
+  get uid() {
+    return this._uid;
+  }
+
+  get gid() {
+    return this._gid;
+  }
+
+  get rdev() {
+    return 0;
+  }
+
+  get size() {
+    return 0;
+  }
+
+  get blksize() {
+    return 512;
+  }
+
+  get blocks() {
+    return Math.ceil(this.size / this.blksize);
+  }
+
+  get atime() {
+    return this._atime;
+  }
+
+  get mtime() {
+    return this._mtime;
+  }
+
+  get ctime() {
+    return this._ctime;
+  }
+
+  get birthtime() {
+    return this._btime;
+  }
 }
 
 export class VirtualDirStats extends VirtualStats {
@@ -53,22 +114,36 @@ export class VirtualDirStats extends VirtualStats {
     super(_fileName);
   }
 
-  isDirectory() { return true; }
+  isDirectory() {
+    return true;
+  }
 
-  get size() { return 1024; }
+  get size() {
+    return 1024;
+  }
 }
 
 export class VirtualFileStats extends VirtualStats {
   private _sourceFile: ts.SourceFile;
+
   constructor(_fileName: string, private _content: string) {
     super(_fileName);
   }
 
-  get content() { return this._content; }
+  get content() {
+    return this._content;
+  }
+
   set content(v: string) {
     this._content = v;
     this._mtime = new Date();
+    this._sourceFile = null;
   }
+
+  setSourceFile(sourceFile: ts.SourceFile) {
+    this._sourceFile = sourceFile;
+  }
+
   getSourceFile(languageVersion: ts.ScriptTarget, setParentNodes: boolean) {
     if (!this._sourceFile) {
       this._sourceFile = ts.createSourceFile(
@@ -81,9 +156,13 @@ export class VirtualFileStats extends VirtualStats {
     return this._sourceFile;
   }
 
-  isFile() { return true; }
+  isFile() {
+    return true;
+  }
 
-  get size() { return this._content.length; }
+  get size() {
+    return this._content.length;
+  }
 }
 
 
@@ -91,10 +170,14 @@ export class WebpackCompilerHost implements ts.CompilerHost {
   private _delegate: ts.CompilerHost;
   private _files: {[path: string]: VirtualFileStats} = Object.create(null);
   private _directories: {[path: string]: VirtualDirStats} = Object.create(null);
-  private _changed = false;
+
+  private _changedFiles: {[path: string]: boolean} = Object.create(null);
+  private _changedDirs: {[path: string]: boolean} = Object.create(null);
 
   private _basePath: string;
   private _setParentNodes: boolean;
+
+  private _cache = false;
 
   constructor(private _options: ts.CompilerOptions, basePath: string) {
     this._setParentNodes = true;
@@ -123,27 +206,43 @@ export class WebpackCompilerHost implements ts.CompilerHost {
     let p = dirname(fileName);
     while (p && !this._directories[p]) {
       this._directories[p] = new VirtualDirStats(p);
+      this._changedDirs[p] = true;
       p = dirname(p);
     }
 
-    this._changed = true;
+    this._changedFiles[fileName] = true;
+  }
+
+  get dirty() {
+    return Object.keys(this._changedFiles).length > 0;
+  }
+
+  enableCaching() {
+    this._cache = true;
   }
 
   populateWebpackResolver(resolver: any) {
     const fs = resolver.fileSystem;
-    if (!this._changed) {
+    if (!this.dirty) {
       return;
     }
 
     const isWindows = process.platform.startsWith('win');
-    for (const fileName of Object.keys(this._files)) {
+    for (const fileName of this.getChangedFilePaths()) {
       const stats = this._files[fileName];
-      // If we're on windows, we need to populate with the proper path separator.
-      const path = isWindows ? fileName.replace(/\//g, '\\') : fileName;
-      fs._statStorage.data[path] = [null, stats];
-      fs._readFileStorage.data[path] = [null, stats.content];
+      if (stats) {
+        // If we're on windows, we need to populate with the proper path separator.
+        const path = isWindows ? fileName.replace(/\//g, '\\') : fileName;
+        fs._statStorage.data[path] = [null, stats];
+        fs._readFileStorage.data[path] = [null, stats.content];
+      } else {
+        // Support removing files as well.
+        const path = isWindows ? fileName.replace(/\//g, '\\') : fileName;
+        fs._statStorage.data[path] = [new Error(), null];
+        fs._readFileStorage.data[path] = [new Error(), null];
+      }
     }
-    for (const dirName of Object.keys(this._directories)) {
+    for (const dirName of Object.keys(this._changedDirs)) {
       const stats = this._directories[dirName];
       const dirs = this.getDirectories(dirName);
       const files = this.getFiles(dirName);
@@ -152,25 +251,48 @@ export class WebpackCompilerHost implements ts.CompilerHost {
       fs._statStorage.data[path] = [null, stats];
       fs._readdirStorage.data[path] = [null, files.concat(dirs)];
     }
+  }
 
-    this._changed = false;
+  resetChangedFileTracker() {
+    this._changedFiles = Object.create(null);
+    this._changedDirs = Object.create(null);
+  }
+
+  getChangedFilePaths(): string[] {
+    return Object.keys(this._changedFiles);
+  }
+
+  invalidate(fileName: string): void {
+    fileName = this._resolve(fileName);
+    if (fileName in this._files) {
+      this._files[fileName] = null;
+      this._changedFiles[fileName] = true;
+    }
   }
 
   fileExists(fileName: string): boolean {
     fileName = this._resolve(fileName);
-    return fileName in this._files || this._delegate.fileExists(fileName);
+    return this._files[fileName] != null || this._delegate.fileExists(fileName);
   }
 
   readFile(fileName: string): string {
     fileName = this._resolve(fileName);
-    return (fileName in this._files)
-         ? this._files[fileName].content
-         : this._delegate.readFile(fileName);
+    if (this._files[fileName] == null) {
+      const result = this._delegate.readFile(fileName);
+      if (result !== undefined && this._cache) {
+        this._setFileContent(fileName, result);
+        return result;
+      } else {
+        return result;
+      }
+    }
+    return this._files[fileName].content;
   }
 
   directoryExists(directoryName: string): boolean {
     directoryName = this._resolve(directoryName);
-    return (directoryName in this._directories) || this._delegate.directoryExists(directoryName);
+    return (this._directories[directoryName] != null)
+      || this._delegate.directoryExists(directoryName);
   }
 
   getFiles(path: string): string[] {
@@ -198,8 +320,11 @@ export class WebpackCompilerHost implements ts.CompilerHost {
   getSourceFile(fileName: string, languageVersion: ts.ScriptTarget, onError?: OnErrorFn) {
     fileName = this._resolve(fileName);
 
-    if (!(fileName in this._files)) {
-      return this._delegate.getSourceFile(fileName, languageVersion, onError);
+    if (this._files[fileName] == null) {
+      const content = this.readFile(fileName);
+      if (!this._cache) {
+        return ts.createSourceFile(fileName, content, languageVersion, this._setParentNodes);
+      }
     }
 
     return this._files[fileName].getSourceFile(languageVersion, this._setParentNodes);

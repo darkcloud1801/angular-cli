@@ -25,7 +25,7 @@ Error.stackTraceLimit = Infinity;
  * Here's a short description of those flags:
  *   --debug          If a test fails, block the thread so the temporary directory isn't deleted.
  *   --noproject      Skip creating a project or using one.
- *   --nolink         Skip linking your local angular-cli directory. Can save a few seconds.
+ *   --nolink         Skip linking your local @angular/cli directory. Can save a few seconds.
  *   --ng-sha=SHA     Use a specific ng-sha. Similar to nightly but point to a master SHA instead
  *                    of using the latest.
  *   --nightly        Install angular nightly builds over the test project.
@@ -58,10 +58,20 @@ ConsoleLoggerStack.start(new IndentLogger('name'))
     let color: (s: string) => string = white;
     let output = process.stdout;
     switch (entry.level) {
-      case 'info': color = white; break;
-      case 'warn': color = yellow; break;
-      case 'error': color = red; output = process.stderr; break;
-      case 'fatal': color = (x: string) => bold(red(x)); output = process.stderr; break;
+      case 'info':
+        color = white;
+        break;
+      case 'warn':
+        color = yellow;
+        break;
+      case 'error':
+        color = red;
+        output = process.stderr;
+        break;
+      case 'fatal':
+        color = (x: string) => bold(red(x));
+        output = process.stderr;
+        break;
     }
 
     output.write(color(entry.message) + '\n');
@@ -72,10 +82,10 @@ let currentFileName = null;
 let index = 0;
 
 const e2eRoot = path.join(__dirname, 'e2e');
-const allSetups = glob.sync(path.join(e2eRoot, 'setup/**/*.ts'), { nodir: true })
+const allSetups = glob.sync(path.join(e2eRoot, 'setup/**/*.ts'), {nodir: true})
   .map(name => path.relative(e2eRoot, name))
   .sort();
-const allTests = glob.sync(path.join(e2eRoot, 'tests/**/*.ts'), { nodir: true })
+const allTests = glob.sync(path.join(e2eRoot, 'tests/**/*.ts'), {nodir: true})
   .map(name => path.relative(e2eRoot, name))
   .sort();
 
@@ -121,8 +131,10 @@ testsToRun.reduce((previous, relativeName) => {
     const module = require(absoluteName);
     const fn: (...args: any[]) => Promise<any> | any =
       (typeof module == 'function') ? module
-      : (typeof module.default == 'function') ? module.default
-      : () => { throw new Error('Invalid test module.'); };
+        : (typeof module.default == 'function') ? module.default
+          : () => {
+            throw new Error('Invalid test module.');
+          };
 
     let clean = true;
     let previousDir = null;
@@ -131,7 +143,10 @@ testsToRun.reduce((previous, relativeName) => {
       .then(() => previousDir = process.cwd())
       .then(() => ConsoleLoggerStack.push(currentFileName))
       .then(() => fn(() => clean = false))
-      .then(() => ConsoleLoggerStack.pop(), (err: any) => { ConsoleLoggerStack.pop(); throw err; })
+      .then(() => ConsoleLoggerStack.pop(), (err: any) => {
+        ConsoleLoggerStack.pop();
+        throw err;
+      })
       .then(() => console.log('----'))
       .then(() => {
         // If we're not in a setup, change the directory back to where it was before the test.

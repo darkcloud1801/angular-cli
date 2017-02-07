@@ -15,7 +15,7 @@ export class DTsSerializer implements Serializer {
     if (interfaceName) {
       _writer(`export interface ${interfaceName} `);
     } else {
-      _writer('export default interface ');
+      _writer('interface _ ');
     }
   }
 
@@ -47,10 +47,15 @@ export class DTsSerializer implements Serializer {
     this._writer(str);
   }
 
-  start() {}
+  start() {
+  }
+
   end() {
     if (this._indentDelta) {
       this._writer('\n');
+    }
+    if (!this.interfaceName) {
+      this._writer('export default _;\n');
     }
   }
 
@@ -59,7 +64,7 @@ export class DTsSerializer implements Serializer {
 
     this._writer('{');
 
-    this._state.push({ empty: true, type: 'object' });
+    this._state.push({empty: true, type: 'object'});
     for (const key of Object.keys(node.children)) {
       this.property(node.children[key]);
     }
@@ -126,6 +131,18 @@ export class DTsSerializer implements Serializer {
     this._writer(')');
   }
 
+  outputEnum(node: SchemaNode) {
+    this._willOutputValue();
+    this._writer('(');
+    for (let i = 0; i < node.items.length; i++) {
+      this._writer(JSON.stringify(node.items[i]));
+      if (i != node.items.length - 1) {
+        this._writer(' | ');
+      }
+    }
+    this._writer(')');
+  }
+
   outputValue(node: SchemaNode) {
     this._willOutputValue();
     this._writer('any');
@@ -135,14 +152,17 @@ export class DTsSerializer implements Serializer {
     this._willOutputValue();
     this._writer('string');
   }
+
   outputNumber(node: SchemaNode) {
     this._willOutputValue();
     this._writer('number');
   }
+
   outputInteger(node: SchemaNode) {
     this._willOutputValue();
     this._writer('number');
   }
+
   outputBoolean(node: SchemaNode) {
     this._willOutputValue();
     this._writer('boolean');

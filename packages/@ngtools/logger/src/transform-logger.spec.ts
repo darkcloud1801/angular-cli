@@ -20,7 +20,7 @@ describe('TransformLogger', () => {
       .toPromise()
       .then((observed: LogEntry[]) => {
         expect(observed).toEqual([
-          jasmine.objectContaining({ message: 'world1', level: 'info', name: 'test' }),
+          jasmine.objectContaining({message: 'world1', level: 'info', name: 'test'}),
         ]);
       })
       .then(() => done(), (err: any) => done.fail(err));

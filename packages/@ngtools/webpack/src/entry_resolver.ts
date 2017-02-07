@@ -135,9 +135,9 @@ export function resolveEntryModuleFromMain(mainPath: string,
     .filter(call => {
       const access = call.expression as ts.PropertyAccessExpression;
       return access.kind == ts.SyntaxKind.PropertyAccessExpression
-          && access.name.kind == ts.SyntaxKind.Identifier
-          && (access.name.text == 'bootstrapModule'
-              || access.name.text == 'bootstrapModuleFactory');
+        && access.name.kind == ts.SyntaxKind.Identifier
+        && (access.name.text == 'bootstrapModule'
+        || access.name.text == 'bootstrapModuleFactory');
     })
     .map(node => node.arguments[0] as ts.Identifier)
     .filter(node => node.kind == ts.SyntaxKind.Identifier);

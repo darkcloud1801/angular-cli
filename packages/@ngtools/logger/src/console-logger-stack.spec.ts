@@ -11,8 +11,8 @@ describe('ConsoleLoggerStack', () => {
       .toPromise()
       .then((observed: LogEntry[]) => {
         expect(observed).toEqual([
-          jasmine.objectContaining({ message: 'hello', level: 'debug', name: 'test' }),
-          jasmine.objectContaining({ message: 'world', level: 'info', name: 'test' }),
+          jasmine.objectContaining({message: 'hello', level: 'debug', name: 'test'}),
+          jasmine.objectContaining({message: 'world', level: 'info', name: 'test'}),
         ]);
       })
       .then(() => done(), (err: any) => done.fail(err));
@@ -31,10 +31,10 @@ describe('ConsoleLoggerStack', () => {
       .toPromise()
       .then((observed: LogEntry[]) => {
         expect(observed).toEqual([
-          jasmine.objectContaining({ message: 'red', level: 'info', name: 'test' }),
-          jasmine.objectContaining({ message: 'blue', level: 'info', name: 'test2' }),
-          jasmine.objectContaining({ message: 'yellow', level: 'info', name: 'test3' }),
-          jasmine.objectContaining({ message: 'green', level: 'info', name: 'test2' }),
+          jasmine.objectContaining({message: 'red', level: 'info', name: 'test'}),
+          jasmine.objectContaining({message: 'blue', level: 'info', name: 'test2'}),
+          jasmine.objectContaining({message: 'yellow', level: 'info', name: 'test3'}),
+          jasmine.objectContaining({message: 'green', level: 'info', name: 'test2'}),
         ]);
       })
       .then(() => done(), (err: any) => done.fail(err));
@@ -60,8 +60,8 @@ describe('ConsoleLoggerStack', () => {
       .toPromise()
       .then((observed: LogEntry[]) => {
         expect(observed).toEqual([
-          jasmine.objectContaining({ message: 'red', level: 'info', name: 'test' }),
-          jasmine.objectContaining({ message: 'green', level: 'info', name: 'test2' }),
+          jasmine.objectContaining({message: 'red', level: 'info', name: 'test'}),
+          jasmine.objectContaining({message: 'green', level: 'info', name: 'test2'}),
         ]);
       })
       .then(() => done(), (err: any) => done.fail(err));

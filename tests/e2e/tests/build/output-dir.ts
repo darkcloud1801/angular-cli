@@ -5,8 +5,8 @@ import {expectGitToBeClean} from '../../utils/git';
 import {updateJsonFile} from '../../utils/project';
 
 
-export default function() {
-  return ng('build', '-o', './build-output')
+export default function () {
+  return ng('build', '-op', './build-output')
     .then(() => expectFileToExist('./build-output/index.html'))
     .then(() => expectFileToExist('./build-output/main.bundle.js'))
     .then(() => expectToFail(expectGitToBeClean))

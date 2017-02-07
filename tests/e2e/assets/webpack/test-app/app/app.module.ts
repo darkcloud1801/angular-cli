@@ -1,13 +1,14 @@
-import { NgModule, Component } from '@angular/core';
-import { BrowserModule  } from '@angular/platform-browser';
-import { RouterModule } from '@angular/router';
-import { AppComponent } from './app.component';
+import {NgModule, Component} from '@angular/core';
+import {BrowserModule} from '@angular/platform-browser';
+import {RouterModule} from '@angular/router';
+import {AppComponent} from './app.component';
 
 @Component({
   selector: 'home-view',
   template: 'home!'
 })
-export class HomeView {}
+export class HomeView {
+}
 
 
 @NgModule({
@@ -24,4 +25,5 @@ export class HomeView {}
   ],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+}

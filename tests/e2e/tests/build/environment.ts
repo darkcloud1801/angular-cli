@@ -4,7 +4,7 @@ import {expectGitToBeClean} from '../../utils/git';
 import {expectToFail} from '../../utils/utils';
 
 
-export default function() {
+export default function () {
   // Try a prod build.
   return ng('build', '--env=prod')
     .then(() => expectFileToMatch('dist/main.bundle.js', 'production: true'))

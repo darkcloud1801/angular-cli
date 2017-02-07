@@ -9,7 +9,8 @@ export type JsonValue = boolean | number | string | JsonObject | JsonArray;
 export interface JsonObject {
   [key: string]: JsonValue;
 }
-export interface JsonArray extends Array<JsonValue> {}
+export interface JsonArray extends Array<JsonValue> {
+}
 
 export interface LoggerMetadata extends JsonObject {
   name: string;
@@ -31,7 +32,10 @@ export class Logger extends Observable<LogEntry> {
   private _obs: Observable<LogEntry>;
   private _subscription: Subscription;
 
-  protected get _observable() { return this._obs; }
+  protected get _observable() {
+    return this._obs;
+  }
+
   protected set _observable(v: Observable<LogEntry>) {
     if (this._subscription) {
       this._subscription.unsubscribe();
@@ -58,7 +62,7 @@ export class Logger extends Observable<LogEntry> {
       path.push(p.name);
       p = p.parent;
     }
-    this._metadata = { name, path };
+    this._metadata = {name, path};
     this._observable = this._subject.asObservable();
     if (parent) {
       // When the parent completes, complete us as well.
@@ -80,15 +84,19 @@ export class Logger extends Observable<LogEntry> {
   debug(message: string, metadata: JsonObject = {}) {
     return this.log('debug', message, metadata);
   }
+
   info(message: string, metadata: JsonObject = {}) {
     return this.log('info', message, metadata);
   }
+
   warn(message: string, metadata: JsonObject = {}) {
     return this.log('warn', message, metadata);
   }
+
   error(message: string, metadata: JsonObject = {}) {
     return this.log('error', message, metadata);
   }
+
   fatal(message: string, metadata: JsonObject = {}) {
     return this.log('fatal', message, metadata);
   }
@@ -110,6 +118,7 @@ export class Logger extends Observable<LogEntry> {
             complete?: () => void): Subscription {
     return this._observable.subscribe.apply(this._observable, arguments);
   }
+
   forEach(next: (value: LogEntry) => void, PromiseCtor?: typeof Promise): Promise<void> {
     return this._observable.forEach(next, PromiseCtor);
   }

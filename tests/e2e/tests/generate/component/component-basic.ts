@@ -3,7 +3,7 @@ import {ng} from '../../../utils/process';
 import {expectFileToExist} from '../../../utils/fs';
 
 
-export default function() {
+export default function () {
   const componentDir = join('src', 'app', 'test-component');
 
   return ng('generate', 'component', 'test-component')

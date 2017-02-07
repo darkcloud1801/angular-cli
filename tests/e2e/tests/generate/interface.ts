@@ -3,7 +3,7 @@ import {ng} from '../../utils/process';
 import {expectFileToExist} from '../../utils/fs';
 
 
-export default function() {
+export default function () {
   const interfaceDir = join('src', 'app');
 
   return ng('generate', 'interface', 'test-interface', 'model')

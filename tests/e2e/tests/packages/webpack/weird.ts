@@ -7,7 +7,7 @@ import {expectFileSizeToBeUnder, expectFileToExist} from '../../../utils/fs';
 import {expectToFail} from '../../../utils/utils';
 
 
-export default function(skipCleaning: () => void) {
+export default function (skipCleaning: () => void) {
   return Promise.resolve()
     .then(() => createProjectFromAsset('webpack/test-app-weird'))
     .then(() => exec(normalize('node_modules/.bin/webpack'), '-p'))

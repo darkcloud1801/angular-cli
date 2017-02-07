@@ -15,16 +15,16 @@ function _push(logger: Logger) {
     originalConsoleError = console.error;
 
     console.debug = (msg: string, ...args: any[]) => {
-      globalConsoleStack[globalConsoleStack.length - 1].debug(msg, { args });
+      globalConsoleStack[globalConsoleStack.length - 1].debug(msg, {args});
     };
     console.log = (msg: string, ...args: any[]) => {
-      globalConsoleStack[globalConsoleStack.length - 1].info(msg, { args });
+      globalConsoleStack[globalConsoleStack.length - 1].info(msg, {args});
     };
     console.warn = (msg: string, ...args: any[]) => {
-      globalConsoleStack[globalConsoleStack.length - 1].warn(msg, { args });
+      globalConsoleStack[globalConsoleStack.length - 1].warn(msg, {args});
     };
     console.error = (msg: string, ...args: any[]) => {
-      globalConsoleStack[globalConsoleStack.length - 1].error(msg, { args });
+      globalConsoleStack[globalConsoleStack.length - 1].error(msg, {args});
     };
   }
   globalConsoleStack.push(logger);
@@ -69,6 +69,7 @@ export class ConsoleLoggerStack {
       return _push(new klass(...args, this.top()));
     }
   }
+
   static pop(): Logger | null {
     _pop();
     return this.top();
@@ -82,7 +83,7 @@ export class ConsoleLoggerStack {
   static start(logger: Logger): Logger;
   static start<T extends Logger>(loggerClass: LoggerConstructor<T>, ...args: any[]): Logger;
   static start<T extends Logger>(nameOrLogger: string | Logger | LoggerConstructor<T> = '',
-                                ...args: any[]) {
+                                 ...args: any[]) {
     if (globalConsoleStack !== null) {
       throw new Error('Cannot start a new console logger stack while one is already going.');
     }
@@ -97,6 +98,7 @@ export class ConsoleLoggerStack {
       return _push(new klass(...args, this.top()));
     }
   }
+
   static end() {
     while (globalConsoleStack !== null) {
       this.pop();

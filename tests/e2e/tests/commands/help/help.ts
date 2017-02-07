@@ -1,7 +1,7 @@
 import {silentNg} from '../../../utils/process';
 
 
-export default function() {
+export default function () {
   return Promise.resolve()
     .then(() => silentNg('help'))
     .then(() => process.chdir('/'))

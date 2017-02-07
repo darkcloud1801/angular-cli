@@ -42,8 +42,7 @@ export class PathsPlugin implements Tapable {
 
   private _absoluteBaseUrl: string;
 
-  private static _loadOptionsFromTsConfig(tsConfigPath: string, host?: ts.CompilerHost):
-      ts.CompilerOptions {
+  private static _loadOptionsFromTsConfig(tsConfigPath: string, host?: ts.CompilerHost): ts.CompilerOptions {
     const tsConfig = ts.readConfigFile(tsConfigPath, (path: string) => {
       if (host) {
         return host.readFile(path);
@@ -149,7 +148,7 @@ export class PathsPlugin implements Tapable {
       newRequest,
       `aliased with mapping '${innerRequest}': '${mapping.alias}' to '${newRequestStr}'`,
       createInnerCallback(
-        function(err, result) {
+        function (err, result) {
           if (arguments.length > 0) {
             return callback(err, result);
           }

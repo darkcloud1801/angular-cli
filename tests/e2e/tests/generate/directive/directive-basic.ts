@@ -3,7 +3,7 @@ import {join} from 'path';
 import {expectFileToExist} from '../../../utils/fs';
 
 
-export default function() {
+export default function () {
   const directiveDir = join('src', 'app');
   return ng('generate', 'directive', 'test-directive')
     .then(() => expectFileToExist(join(directiveDir, 'test-directive.directive.ts')))

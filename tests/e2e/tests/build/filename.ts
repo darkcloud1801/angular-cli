@@ -4,7 +4,7 @@ import {updateJsonFile} from '../../utils/project';
 import {copyFile} from '../../utils/fs';
 
 
-export default function() {
+export default function () {
   return Promise.resolve()
     .then(() => copyFile('src/index.html', 'src/config-index.html'))
     .then(() => updateJsonFile('angular-cli.json', configJson => {

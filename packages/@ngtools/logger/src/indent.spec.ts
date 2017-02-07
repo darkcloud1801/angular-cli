@@ -10,11 +10,11 @@ describe('IndentSpec', () => {
       .toPromise()
       .then((observed: LogEntry[]) => {
         expect(observed).toEqual([
-          jasmine.objectContaining({ message: 'test', level: 'info', name: 'test' }),
-          jasmine.objectContaining({ message: '  test2', level: 'info', name: 'test2' }),
-          jasmine.objectContaining({ message: '    test3', level: 'info', name: 'test3' }),
-          jasmine.objectContaining({ message: '  test4', level: 'info', name: 'test4' }),
-          jasmine.objectContaining({ message: 'test5', level: 'info', name: 'test' }),
+          jasmine.objectContaining({message: 'test', level: 'info', name: 'test'}),
+          jasmine.objectContaining({message: '  test2', level: 'info', name: 'test2'}),
+          jasmine.objectContaining({message: '    test3', level: 'info', name: 'test3'}),
+          jasmine.objectContaining({message: '  test4', level: 'info', name: 'test4'}),
+          jasmine.objectContaining({message: 'test5', level: 'info', name: 'test'}),
         ]);
       })
       .then(() => done(), (err: any) => done.fail(err));

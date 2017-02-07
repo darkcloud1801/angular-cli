@@ -17,10 +17,10 @@ module.exports = {
   ],
   module: {
     loaders: [
-      { test: /\.scss$/, loaders: ['raw-loader', 'sass-loader'] },
-      { test: /\.css$/, loader: 'raw-loader' },
-      { test: /\.html$/, loader: 'raw-loader' },
-      { test: /\.ts$/, loader: '@ngtools/webpack' }
+      {test: /\.scss$/, loaders: ['raw-loader', 'sass-loader']},
+      {test: /\.css$/, loader: 'raw-loader'},
+      {test: /\.html$/, loader: 'raw-loader'},
+      {test: /\.ts$/, loader: '@ngtools/webpack'}
     ]
   },
   devServer: {

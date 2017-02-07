@@ -3,7 +3,7 @@ import {node, ng, npm} from '../utils/process';
 const packages = require('../../../lib/packages');
 
 
-export default function() {
+export default function () {
   return Promise.resolve()
     .then(() => console.log('Environment:'))
     .then(() => {

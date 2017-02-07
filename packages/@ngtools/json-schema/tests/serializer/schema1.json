@@ -21,14 +21,25 @@
     },
     "oneOfKey1": {
       "oneOf": [
-        { "type": "string" },
-        { "type": "number" }
+        {
+          "type": "string"
+        },
+        {
+          "type": "number"
+        }
       ]
     },
     "oneOfKey2": {
       "oneOf": [
-        { "type": "string" },
-        { "type": "array", "items": { "type": "string" } }
+        {
+          "type": "string"
+        },
+        {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
       ]
     },
     "objectKey1": {
@@ -80,5 +91,7 @@
       }
     }
   },
-  "required": ["requiredKey"]
+  "required": [
+    "requiredKey"
+  ]
 }

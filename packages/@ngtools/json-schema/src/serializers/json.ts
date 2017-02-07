@@ -11,7 +11,8 @@ interface JsonSerializerState {
 export class JsonSerializer implements Serializer {
   private _state: JsonSerializerState[] = [];
 
-  constructor(private _writer: WriterFn, private _indentDelta = 2) {}
+  constructor(private _writer: WriterFn, private _indentDelta = 2) {
+  }
 
   private _willOutputValue() {
     if (this._state.length > 0) {
@@ -46,7 +47,9 @@ export class JsonSerializer implements Serializer {
     this._writer(str);
   }
 
-  start() {}
+  start() {
+  }
+
   end() {
     if (this._indentDelta) {
       this._writer('\n');
@@ -61,7 +64,7 @@ export class JsonSerializer implements Serializer {
     this._willOutputValue();
 
     this._writer('{');
-    this._state.push({ empty: true, type: 'object' });
+    this._state.push({empty: true, type: 'object'});
 
     for (const key of Object.keys(node.children)) {
       this.property(node.children[key]);
@@ -111,7 +114,7 @@ export class JsonSerializer implements Serializer {
     this._willOutputValue();
 
     this._writer('[');
-    this._state.push({ empty: true, type: 'array' });
+    this._state.push({empty: true, type: 'array'});
     for (let i = 0; i < node.items.length; i++) {
       node.items[i].serialize(this);
     }
@@ -127,6 +130,10 @@ export class JsonSerializer implements Serializer {
     this.outputValue(node);
   }
 
+  outputEnum(node: SchemaNode) {
+    this.outputValue(node);
+  }
+
   outputValue(node: SchemaNode) {
     this._willOutputValue();
     this._writer(JSON.stringify(node.value, null, this._indentDelta));
@@ -136,14 +143,17 @@ export class JsonSerializer implements Serializer {
     this._willOutputValue();
     this._writer(JSON.stringify(node.value));
   }
+
   outputNumber(node: SchemaNode) {
     this._willOutputValue();
     this._writer(JSON.stringify(node.value));
   }
+
   outputInteger(node: SchemaNode) {
     this._willOutputValue();
     this._writer(JSON.stringify(node.value));
   }
+
   outputBoolean(node: SchemaNode) {
     this._willOutputValue();
     this._writer(JSON.stringify(node.value));

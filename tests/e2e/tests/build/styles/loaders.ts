@@ -4,10 +4,10 @@ import {
   expectFileToMatch,
   replaceInFile
 } from '../../../utils/fs';
-import { ng } from '../../../utils/process';
-import { stripIndents } from 'common-tags';
-import { updateJsonFile } from '../../../utils/project';
-import { expectToFail } from '../../../utils/utils';
+import {ng} from '../../../utils/process';
+import {stripIndents} from 'common-tags';
+import {updateJsonFile} from '../../../utils/project';
+import {expectToFail} from '../../../utils/utils';
 
 export default function () {
   return writeMultipleFiles({
@@ -24,7 +24,8 @@ export default function () {
             background: #fff;
           }
         }
-      `})
+      `
+  })
     .then(() => deleteFile('src/app/app.component.css'))
     .then(() => updateJsonFile('angular-cli.json', configJson => {
       const app = configJson['apps'][0];

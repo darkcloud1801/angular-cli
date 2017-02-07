@@ -4,7 +4,7 @@ import {expectToFail} from '../../../utils/utils';
 import {expectGitToBeClean} from '../../../utils/git';
 
 
-export default function() {
+export default function () {
   return Promise.resolve()
     .then(() => createProject('new-project', '--skip-commit'))
     .then(() => expectToFail(() => expectGitToBeClean()))

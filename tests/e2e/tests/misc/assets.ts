@@ -4,7 +4,7 @@ import {updateJsonFile} from '../../utils/project';
 import {expectToFail} from '../../utils/utils';
 
 
-export default function() {
+export default function () {
   return writeFile('src/assets/.file', '')
     .then(() => writeFile('src/assets/test.abc', 'hello world'))
     .then(() => ng('build'))

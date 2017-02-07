@@ -2,7 +2,7 @@ import {ng, silentNg} from '../../../utils/process';
 import {expectToFail} from '../../../utils/utils';
 
 
-export default function() {
+export default function () {
   return Promise.resolve()
     .then(() => process.chdir('/'))
     .then(() => expectToFail(() => ng('get', 'defaults.inline.style')))

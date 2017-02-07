@@ -6,7 +6,8 @@ import {HttpModule, Http} from '@angular/http';
   selector: 'lazy-feature-comp',
   template: 'lazy feature!'
 })
-export class LazyFeatureComponent {}
+export class LazyFeatureComponent {
+}
 
 @NgModule({
   imports: [
@@ -19,5 +20,6 @@ export class LazyFeatureComponent {}
   declarations: [LazyFeatureComponent]
 })
 export class LazyFeatureModule {
-  constructor(http: Http) {}
+  constructor(http: Http) {
+  }
 }

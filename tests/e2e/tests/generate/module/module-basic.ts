@@ -4,7 +4,7 @@ import {expectFileToExist, expectFileToMatch} from '../../../utils/fs';
 import {expectToFail} from '../../../utils/utils';
 
 
-export default function() {
+export default function () {
   const moduleDir = join('src', 'app', 'test');
 
   return ng('generate', 'module', 'test')

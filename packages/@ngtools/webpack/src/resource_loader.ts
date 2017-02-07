@@ -9,7 +9,6 @@ const LoaderTargetPlugin = require('webpack/lib/LoaderTargetPlugin');
 const SingleEntryPlugin = require('webpack/lib/SingleEntryPlugin');
 
 
-
 export class WebpackResourceLoader implements ResourceLoader {
   private _context: string;
   private _uniqueId = 0;
@@ -20,7 +19,7 @@ export class WebpackResourceLoader implements ResourceLoader {
 
   private _compile(filePath: string, content: string): Promise<any> {
     const compilerName = `compiler(${this._uniqueId++})`;
-    const outputOptions = { filename: filePath };
+    const outputOptions = {filename: filePath};
     const relativePath = path.relative(this._context || '', filePath);
     const childCompiler = this._parentCompilation.createChildCompiler(relativePath, outputOptions);
     childCompiler.context = this._context;
@@ -64,16 +63,18 @@ export class WebpackResourceLoader implements ResourceLoader {
           // Replace [hash] placeholders in filename
           const outputName = this._parentCompilation.mainTemplate.applyPluginsWaterfall(
             'asset-path', outputOptions.filename, {
-            hash: childCompilation.hash,
-            chunk: entries[0]
-          });
+              hash: childCompilation.hash,
+              chunk: entries[0]
+            });
 
           // Restore the parent compilation to the state like it was before the child compilation.
-          this._parentCompilation.assets[outputName] = assetsBeforeCompilation[outputName];
-          if (assetsBeforeCompilation[outputName] === undefined) {
-            // If it wasn't there - delete it.
-            delete this._parentCompilation.assets[outputName];
-          }
+          Object.keys(childCompilation.assets).forEach((fileName) => {
+            this._parentCompilation.assets[fileName] = assetsBeforeCompilation[fileName];
+            if (assetsBeforeCompilation[fileName] === undefined) {
+              // If it wasn't there - delete it.
+              delete this._parentCompilation.assets[fileName];
+            }
+          });
 
           resolve({
             // Hash of the template entry point.

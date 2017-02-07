@@ -8,7 +8,7 @@ import {ngServe} from '../../utils/project';
 import {expectToFail} from '../../utils/utils';
 
 
-export default function() {
+export default function () {
   // Create an express app that serves as a proxy.
   const app = express();
   const server = http.createServer(app);
@@ -38,8 +38,14 @@ export default function() {
         throw new Error('Response does not match expected value.');
       }
     })
-    .then(() => server.close(), (err) => { server.close(); throw err; })
-    .then(() => killAllProcesses(), (err) => { killAllProcesses(); throw err; })
+    .then(() => server.close(), (err) => {
+      server.close();
+      throw err;
+    })
+    .then(() => killAllProcesses(), (err) => {
+      killAllProcesses();
+      throw err;
+    })
 
     // A non-existing proxy file should error.
     .then(() => expectToFail(() => ng('serve', '--proxy', 'proxy.non-existent.json')));

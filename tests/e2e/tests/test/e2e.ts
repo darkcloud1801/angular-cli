@@ -12,10 +12,10 @@ export function runServeAndE2e(...args: string[]) {
     });
 }
 
-export default function() {
+export default function () {
   // This is supposed to fail without serving first...
   return expectToFail(() => ng('e2e'))
-    // These should work.
+  // These should work.
     .then(() => runServeAndE2e())
     .then(() => runServeAndE2e('--prod'))
     .then(() => runServeAndE2e('--aot'))

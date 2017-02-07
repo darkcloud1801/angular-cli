@@ -18,7 +18,7 @@ export function copyAssets(assetName: string) {
 
   return Promise.resolve()
     .then(() => {
-      const allFiles = glob.sync(join(root, '**/*'), { dot: true, nodir: true });
+      const allFiles = glob.sync(join(root, '**/*'), {dot: true, nodir: true});
 
       return allFiles.reduce((promise, filePath) => {
         const relPath = relative(root, filePath);

@@ -1,5 +1,5 @@
-import { writeFile, writeMultipleFiles } from '../../utils/fs';
-import { runServeAndE2e } from '../test/e2e';
+import {writeFile, writeMultipleFiles} from '../../utils/fs';
+import {runServeAndE2e} from '../test/e2e';
 
 
 export default function () {
@@ -7,9 +7,13 @@ export default function () {
     .then(() => writeFile('angular-cli.json', JSON.stringify({
       apps: [{
         root: 'src',
-        main: 'main.ts'
+        main: 'main.ts',
+        scripts: [
+          '../node_modules/core-js/client/shim.min.js',
+          '../node_modules/zone.js/dist/zone.js'
+        ]
       }],
-      e2e: { protractor: { config: './protractor.conf.js' } }
+      e2e: {protractor: {config: './protractor.conf.js'}}
     })))
     .then(() => runServeAndE2e())
     .then(() => writeMultipleFiles({
@@ -33,7 +37,7 @@ export default function () {
           root: 'src',
           scripts: ['./script.js']
         }],
-        e2e: { protractor: { config: './protractor.conf.js' } }
+        e2e: {protractor: {config: './protractor.conf.js'}}
       }),
     }))
     .then(() => runServeAndE2e());

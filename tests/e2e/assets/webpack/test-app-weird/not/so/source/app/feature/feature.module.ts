@@ -5,7 +5,8 @@ import {RouterModule} from '@angular/router';
   selector: 'feature-component',
   template: 'foo.html'
 })
-export class FeatureComponent {}
+export class FeatureComponent {
+}
 
 @NgModule({
   declarations: [
@@ -13,8 +14,9 @@ export class FeatureComponent {}
   ],
   imports: [
     RouterModule.forChild([
-      { path: '', component: FeatureComponent}
+      {path: '', component: FeatureComponent}
     ])
   ]
 })
-export class FeatureModule {}
+export class FeatureModule {
+}

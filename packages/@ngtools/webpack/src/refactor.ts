@@ -30,11 +30,19 @@ export class TypeScriptFileRefactor {
   private _sourceFile: ts.SourceFile;
   private _sourceString: any;
   private _sourceText: string;
-  private _changed: boolean = false;
+  private _changed = false;
 
-  get fileName() { return this._fileName; }
-  get sourceFile() { return this._sourceFile; }
-  get sourceText() { return this._sourceString.toString(); }
+  get fileName() {
+    return this._fileName;
+  }
+
+  get sourceFile() {
+    return this._sourceFile;
+  }
+
+  get sourceText() {
+    return this._sourceString.toString();
+  }
 
   constructor(fileName: string,
               private _host: ts.CompilerHost,
@@ -60,12 +68,15 @@ export class TypeScriptFileRefactor {
     if (!this._program) {
       return [];
     }
-    let diagnostics: ts.Diagnostic[] = this._program.getSyntacticDiagnostics(this._sourceFile)
-                              .concat(this._program.getSemanticDiagnostics(this._sourceFile));
+    let diagnostics: ts.Diagnostic[] = [];
     // only concat the declaration diagnostics if the tsconfig config sets it to true.
     if (this._program.getCompilerOptions().declaration == true) {
       diagnostics = diagnostics.concat(this._program.getDeclarationDiagnostics(this._sourceFile));
     }
+    diagnostics = diagnostics.concat(
+      this._program.getSyntacticDiagnostics(this._sourceFile),
+      this._program.getSemanticDiagnostics(this._sourceFile));
+
     return diagnostics;
   }
 
@@ -117,8 +128,20 @@ export class TypeScriptFileRefactor {
     return arr;
   }
 
+  findFirstAstNode(node: ts.Node | null, kind: ts.SyntaxKind): ts.Node | null {
+    return this.findAstNodes(node, kind, false, 1)[0] || null;
+  }
+
   appendAfter(node: ts.Node, text: string): void {
     this._sourceString.insertRight(node.getEnd(), text);
+  }
+
+  append(node: ts.Node, text: string): void {
+    this._sourceString.insertLeft(node.getEnd(), text);
+  }
+
+  prependBefore(node: ts.Node, text: string) {
+    this._sourceString.insertLeft(node.getStart(), text);
   }
 
   insertImport(symbolName: string, modulePath: string): void {
@@ -128,7 +151,7 @@ export class TypeScriptFileRefactor {
       .filter((node: ts.ImportDeclaration) => {
         // Filter all imports that do not match the modulePath.
         return node.moduleSpecifier.kind == ts.SyntaxKind.StringLiteral
-            && (node.moduleSpecifier as ts.StringLiteral).text == modulePath;
+          && (node.moduleSpecifier as ts.StringLiteral).text == modulePath;
       })
       .filter((node: ts.ImportDeclaration) => {
         // Remove import statements that are either `import 'XYZ'` or `import * as X from 'XYZ'`.
@@ -176,9 +199,9 @@ export class TypeScriptFileRefactor {
   replaceNode(node: ts.Node, replacement: string) {
     let replaceSymbolName: boolean = node.kind === ts.SyntaxKind.Identifier;
     this._sourceString.overwrite(node.getStart(this._sourceFile),
-                                 node.getEnd(),
-                                 replacement,
-                                 replaceSymbolName);
+      node.getEnd(),
+      replacement,
+      replaceSymbolName);
     this._changed = true;
   }
 
@@ -200,7 +223,7 @@ export class TypeScriptFileRefactor {
 
     if (result.sourceMapText) {
       const sourceMapJson = JSON.parse(result.sourceMapText);
-      sourceMapJson.sources = [ this._fileName ];
+      sourceMapJson.sources = [this._fileName];
 
       const consumer = new SourceMapConsumer(sourceMapJson);
       const map = SourceMapGenerator.fromSourceMap(consumer);
@@ -215,13 +238,13 @@ export class TypeScriptFileRefactor {
 
       const sourceMap = map.toJSON();
       const fileName = process.platform.startsWith('win')
-                     ? this._fileName.replace(/\//g, '\\')
-                     : this._fileName;
-      sourceMap.sources = [ fileName ];
+        ? this._fileName.replace(/\//g, '\\')
+        : this._fileName;
+      sourceMap.sources = [fileName];
       sourceMap.file = path.basename(fileName, '.ts') + '.js';
-      sourceMap.sourcesContent = [ this._sourceText ];
+      sourceMap.sourcesContent = [this._sourceText];
 
-      return { outputText: result.outputText, sourceMap };
+      return {outputText: result.outputText, sourceMap};
     } else {
       return {
         outputText: result.outputText,

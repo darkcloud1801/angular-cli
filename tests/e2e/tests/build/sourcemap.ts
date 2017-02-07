@@ -3,7 +3,7 @@ import {expectFileToExist} from '../../utils/fs';
 import {expectToFail} from '../../utils/utils';
 
 
-export default function() {
+export default function () {
   return ng('build')
     .then(() => expectFileToExist('dist/main.bundle.map'))
 

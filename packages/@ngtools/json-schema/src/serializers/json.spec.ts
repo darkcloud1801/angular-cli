@@ -18,6 +18,7 @@ describe('JsonSerializer', () => {
       const schema: RootSchemaTreeNode = schemaClass.$$schema();
 
       let str = '';
+
       function writer(s: string) {
         str += s;
       }
